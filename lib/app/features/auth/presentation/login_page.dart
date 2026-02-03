@@ -39,11 +39,13 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
+              key: const ValueKey('auth.emailTextField'),
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: 12),
             TextField(
+              key: const ValueKey('auth.passwordTextField'),
               controller: _passwordController,
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Password'),
@@ -55,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 return const SizedBox.shrink();
               }
               return Text(
+                key: const ValueKey('auth.errorText'),
                 controller.errorMessage.value,
                 style: const TextStyle(color: Colors.red),
               );
@@ -62,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 16),
             Obx(() {
               return ElevatedButton(
+                key: const ValueKey('auth.loginButton'),
                 onPressed: controller.isLoading.value
                     ? null
                     : () {
@@ -73,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                 child: controller.isLoading.value
                     ? const SizedBox(
+                        key: ValueKey('auth.loginLoading'),
                         height: 18,
                         width: 18,
                         child: CircularProgressIndicator(strokeWidth: 2),

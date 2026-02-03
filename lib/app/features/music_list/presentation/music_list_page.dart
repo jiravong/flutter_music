@@ -39,16 +39,20 @@ class MusicListPage extends GetView<MusicListController> {
 
         // State: Success
         return RefreshIndicator(
+          key: const ValueKey('musicList.refresh'),
           onRefresh: controller.fetchMusicList,
           child: ListView.separated(
+            key: const ValueKey('musicList.listView'),
             itemCount: controller.musics.length,
             separatorBuilder: (_, __) => const Divider(height: 1),
             itemBuilder: (context, index) {
               final music = controller.musics[index];
               return ListTile(
+                key: ValueKey('musicList.tile.${music.id}'),
                 title: Text(music.title),
                 subtitle: Text(music.artist),
                 trailing: IconButton(
+                  key: ValueKey('musicList.playButton.${music.id}'),
                   icon: Obx(() {
                     // Show play/pause icon based on controller playback state.
                     final isThisPlaying =

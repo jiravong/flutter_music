@@ -108,3 +108,24 @@ flutter run
 
 - `ApiClient` has request/response logging enabled only in debug mode.
 - `features/player` registers `PlayerController` as a permanent singleton to share playback across screens.
+
+
+## Test
+LoginPage
+    auth.emailTextField
+    auth.passwordTextField
+    auth.errorText
+    auth.loginButton
+    auth.loginLoading
+MusicListPage
+    musicList.refresh
+    musicList.listView
+    musicList.tile.<id>
+    musicList.playButton.<id>
+MusicDetailPage
+    musicDetail.title
+    musicDetail.artist
+    musicDetail.lyricsScroll
+    musicDetail.lyrics
+    musicDetail.playButton
+    musicDetail.stopButton

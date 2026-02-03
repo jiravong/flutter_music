@@ -57,10 +57,10 @@ class ApiClient extends GetConnect {
     if (kDebugMode) {
       // Log ขา Request
       httpClient.addRequestModifier<dynamic>((request) {
-        print('---------------- REQUEST ----------------');
-        print('Method: ${request.method}');
-        print('URL: ${request.url}');
-        print('Headers: ${request.headers}');
+        developer.log('---------------- REQUEST ----------------', name: 'API_REQUEST');
+        developer.log('Method: ${request.method}', name: 'API_REQUEST');
+        developer.log('URL: ${request.url}', name: 'API_REQUEST');
+        developer.log('Headers: ${request.headers}', name: 'API_REQUEST');
         // ถ้าอยากดู Body ขาส่งด้วย (ระวังถ้ายาวมาก)
         // print('Body: ${request.bodyBytes}'); 
         return request;
@@ -68,9 +68,9 @@ class ApiClient extends GetConnect {
 
       // Log ขา Response
       httpClient.addResponseModifier((request, response) {
-        print('---------------- RESPONSE ----------------');
-        print('Status: ${response.statusCode}');
-        print('URL: ${request.url}');
+        developer.log('---------------- RESPONSE ----------------', name: 'API_RESPONSE');
+        developer.log('Status: ${response.statusCode}', name: 'API_RESPONSE');
+        developer.log('URL: ${request.url}', name: 'API_RESPONSE');
         
         // ใช้ developer.log เพื่อให้เห็น JSON เต็มๆ กรณี response ยาว
         developer.log('Body: ${response.bodyString}', name: 'API_RESPONSE');

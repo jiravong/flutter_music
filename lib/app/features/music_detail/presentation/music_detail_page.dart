@@ -73,12 +73,23 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(music.title, style: Theme.of(context).textTheme.headlineSmall),
+              Text(
+                music.title,
+                key: const ValueKey('musicDetail.title'),
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
               const SizedBox(height: 8),
-              Text(music.artist, style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                music.artist,
+                key: const ValueKey('musicDetail.artist'),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 16),
               Expanded(
-                child: SingleChildScrollView(child: Text(music.lyrics)),
+                child: SingleChildScrollView(
+                  key: const ValueKey('musicDetail.lyricsScroll'),
+                  child: Text(music.lyrics, key: const ValueKey('musicDetail.lyrics')),
+                ),
               ),
               const SizedBox(height: 12),
               Row(
@@ -86,6 +97,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
                   Expanded(
                     child: ElevatedButton(
                       // Delegate playback to controller.
+                      key: const ValueKey('musicDetail.playButton'),
                       onPressed: () => controller.playUrl(music.mp3Url),
                       child: Obx(() {
                         final isThisPlaying =
@@ -102,6 +114,7 @@ class _MusicDetailPageState extends State<MusicDetailPage> {
                           controller.playingUrl.value == music.mp3Url &&
                               controller.isPlaying.value;
                       return ElevatedButton(
+                        key: const ValueKey('musicDetail.stopButton'),
                         onPressed: isThisPlaying ? controller.stop : null,
                         child: const Text('Stop'),
                       );
