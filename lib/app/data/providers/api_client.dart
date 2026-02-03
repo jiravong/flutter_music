@@ -19,7 +19,14 @@ class ApiClient extends GetConnect {
     _refreshCompleter = Completer<String?>();
 
     try {
-      final response = await post(ApiEndpoints.refreshToken, {});
+      final refreshToken = _tokenStorage.readRefreshToken();
+      final response = await post(
+        ApiEndpoints.refreshToken,
+        {
+          if (refreshToken != null && refreshToken.isNotEmpty)
+            'refresh_token': refreshToken,
+        },
+      );
       if (!response.isOk) {
         _refreshCompleter!.complete(null);
         return null;

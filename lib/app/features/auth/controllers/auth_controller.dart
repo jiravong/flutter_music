@@ -26,8 +26,9 @@ class AuthController extends GetxController {
       errorMessage.value = '';
 
       // Execute login and store access token for subsequent API requests.
-      final token = await loginUseCase(email: email, password: password);
-      await tokenStorage.writeToken(token);
+      final tokens = await loginUseCase(email: email, password: password);
+      await tokenStorage.writeToken(tokens.accessToken);
+      await tokenStorage.writeRefreshToken(tokens.refreshToken);
 
       // Replace navigation stack so user can't go back to login.
       Get.offAllNamed('/music');

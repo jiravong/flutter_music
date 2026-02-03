@@ -1,4 +1,5 @@
 import '../repositories/auth_repository.dart';
+import '../entities/auth_tokens.dart';
 
 // Use case that performs login via AuthRepository.
 //
@@ -10,7 +11,7 @@ class LoginUseCase {
   final AuthRepository _repo;
 
   // Executes the login action and returns a JWT access token.
-  Future<String> call({required String email, required String password}) {
+  Future<AuthTokens> call({required String email, required String password}) {
     return _repo.login(email: email, password: password);
   }
 }
