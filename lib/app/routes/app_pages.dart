@@ -1,3 +1,5 @@
+import 'package:flutter_music_clean_getx/app/features/home/binding/home_binding.dart';
+import 'package:flutter_music_clean_getx/app/features/home/presentation/home_page.dart';
 import 'package:get/get.dart';
 
 import '../features/auth/bindings/auth_binding.dart';
@@ -19,6 +21,11 @@ class AppPages {
       name: AppRoutes.login,
       page: () => const LoginPage(),
       binding: AuthBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.home,
+      page: () => const HomePage(),
+      binding: HomeBinding(),
     ),
     GetPage(
       name: AppRoutes.music,

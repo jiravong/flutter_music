@@ -1,8 +1,5 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
-import '../../../core/storage/token_storage.dart';
-import '../../../data/providers/api_client.dart';
 import '../../../data/repositories/music_repository_impl.dart';
 import '../../../domain/repositories/music_repository.dart';
 import '../../../domain/usecases/get_music_list_usecase.dart';
@@ -15,13 +12,6 @@ import '../controllers/music_list_controller.dart';
 class MusicBinding extends Bindings {
   @override
   void dependencies() {
-    // Storage
-    Get.lazyPut<GetStorage>(() => GetStorage());
-    Get.lazyPut<TokenStorage>(() => TokenStorage(Get.find()));
-
-    // Network
-    Get.lazyPut<ApiClient>(() => ApiClient(Get.find()));
-
     // Data -> Domain
     Get.lazyPut<MusicRepository>(() => MusicRepositoryImpl(Get.find()));
     Get.lazyPut<GetMusicListUseCase>(() => GetMusicListUseCase(Get.find()));

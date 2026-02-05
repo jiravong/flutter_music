@@ -1,3 +1,4 @@
+import 'package:flutter_music_clean_getx/app/routes/app_routes.dart';
 import 'package:get/get.dart';
 
 import '../../../core/storage/token_storage.dart';
@@ -31,7 +32,7 @@ class AuthController extends GetxController {
       await tokenStorage.writeRefreshToken(tokens.refreshToken);
 
       // Replace navigation stack so user can't go back to login.
-      Get.offAllNamed('/music');
+      Get.offAllNamed(AppRoutes.home);
     } catch (e) {
       // Keep error as text to show in UI.
       errorMessage.value = e.toString();

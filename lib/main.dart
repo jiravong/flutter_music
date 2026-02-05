@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'app/core/bindings/initial_binding.dart';
 import 'app/routes/app_pages.dart';
 import 'app/routes/app_routes.dart';
 
@@ -20,7 +21,7 @@ Future<void> main() async {
 
   // If token exists, go directly to music list. Otherwise, show login page.
   final initialRoute =
-      (token != null && token.isNotEmpty) ? AppRoutes.music : AppRoutes.login;
+      (token != null && token.isNotEmpty) ? AppRoutes.home : AppRoutes.login;
 
   runApp(MyApp(initialRoute: initialRoute));
 }
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      initialBinding: InitialBinding(),
       initialRoute: initialRoute,
       // Route -> page mapping.
       getPages: AppPages.pages,
