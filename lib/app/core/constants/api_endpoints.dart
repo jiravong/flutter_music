@@ -10,6 +10,7 @@ class ApiEndpoints {
   // Auth
   static const String login = '/api/v1/auth/login';
   static const String refreshToken = '/api/v1/auth/refresh-token';
+  static const String getUser = '/api/v1/user';
 
   // Music
   static const String music = '/api/v1/music/';

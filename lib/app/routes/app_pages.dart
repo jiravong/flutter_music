@@ -2,6 +2,8 @@ import 'package:flutter_music_clean_getx/app/features/home/binding/home_binding.
 import 'package:flutter_music_clean_getx/app/features/home/presentation/home_page.dart';
 import 'package:flutter_music_clean_getx/app/features/landing/binding/landing_binding.dart';
 import 'package:flutter_music_clean_getx/app/features/landing/presentation/landing_page.dart';
+import 'package:flutter_music_clean_getx/app/features/profile/bindings/profile_binding.dart';
+import 'package:flutter_music_clean_getx/app/features/profile/presentation/profile_page.dart';
 import 'package:get/get.dart';
 
 import '../features/auth/bindings/auth_binding.dart';
@@ -43,6 +45,11 @@ class AppPages {
       name: AppRoutes.musicDetail,
       page: () => const MusicDetailPage(),
       bindings: [PlayerBinding(), MusicDetailBinding()],
+    ),
+    GetPage(
+      name: AppRoutes.profile,
+      page: () => const ProfilePage(),
+      binding: ProfileBinding(),
     ),
   ];
 }
