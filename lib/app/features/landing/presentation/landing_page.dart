@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_music_clean_getx/app/features/home/presentation/home_page.dart';
 import 'package:flutter_music_clean_getx/app/features/landing/controllers/landing_controller.dart';
 import 'package:flutter_music_clean_getx/app/features/music_list/presentation/music_list_page.dart';
@@ -26,10 +25,10 @@ class LandingPage extends GetView<LandingController> {
         onTap: controller.changeTabIndex,
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music'),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',key: ValueKey('landing.home')),
+          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music',key: ValueKey('landing.music')),
+          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore',key: ValueKey('landing.explore')),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile',key: ValueKey('landing.profile')),
         ],
       )),
     );

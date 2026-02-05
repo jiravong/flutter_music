@@ -1,4 +1,5 @@
 import 'package:flutter_music_clean_getx/app/routes/app_routes.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/storage/token_storage.dart';
@@ -15,6 +16,9 @@ class AuthController extends GetxController {
 
   final LoginUseCase loginUseCase;
   final TokenStorage tokenStorage;
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   // Observable UI state.
   final isLoading = false.obs;
@@ -39,5 +43,12 @@ class AuthController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 }

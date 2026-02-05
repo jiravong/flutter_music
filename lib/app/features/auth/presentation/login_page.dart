@@ -8,29 +8,11 @@ import '../controllers/auth_controller.dart';
 // UI reads state from AuthController via Obx:
 // - isLoading: disables button and shows spinner
 // - errorMessage: shows errors
-class LoginPage extends StatefulWidget {
+class LoginPage extends GetView<AuthController> {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // Binding provides AuthController for this route.
-    final controller = Get.find<AuthController>();
-
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
@@ -40,19 +22,18 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             TextField(
               key: const ValueKey('auth.emailTextField'),
-              controller: _emailController,
+              controller: controller.emailController,
               decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: 12),
             TextField(
               key: const ValueKey('auth.passwordTextField'),
-              controller: _passwordController,
+              controller: controller.passwordController,
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Password'),
             ),
             const SizedBox(height: 16),
             Obx(() {
-              // Render error label when controller reports an error.
               if (controller.errorMessage.value.isEmpty) {
                 return const SizedBox.shrink();
               }
@@ -69,10 +50,9 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: controller.isLoading.value
                     ? null
                     : () {
-                        // Trigger login flow in controller.
                         controller.login(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text,
+                          email: controller.emailController.text.trim(),
+                          password: controller.passwordController.text,
                         );
                       },
                 child: controller.isLoading.value

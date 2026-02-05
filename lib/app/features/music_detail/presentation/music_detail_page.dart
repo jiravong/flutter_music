@@ -7,45 +7,8 @@ import '../controllers/music_detail_controller.dart';
 //
 // Reads `id` from Get.parameters and asks controller to fetch detail.
 // Uses Obx to render loading/error/success states.
-class MusicDetailPage extends StatefulWidget {
+class MusicDetailPage extends GetView<MusicDetailController> {
   const MusicDetailPage({super.key});
-
-  @override
-  State<MusicDetailPage> createState() => _MusicDetailPageState();
-}
-
-class _MusicDetailPageState extends State<MusicDetailPage> {
-  final MusicDetailController controller = Get.find<MusicDetailController>();
-
-  int? _lastFetchedId;
-
-  int _readIdFromParams() {
-    final idString = Get.parameters['id'] ?? '';
-    return int.tryParse(idString) ?? 0;
-  }
-
-  void _fetchIfNeeded() {
-    final id = _readIdFromParams();
-    if (id == 0) return;
-    if (_lastFetchedId == id) return;
-    _lastFetchedId = id;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.fetchMusicDetail(id);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchIfNeeded();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _fetchIfNeeded();
-  }
 
   @override
   Widget build(BuildContext context) {

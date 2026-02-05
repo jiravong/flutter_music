@@ -19,6 +19,28 @@ class MusicDetailController extends GetxController {
   RxBool get isPlaying => _player.isPlaying;
   RxString get playingUrl => _player.playingUrl;
 
+  int? _lastFetchedId;
+
+  int _readIdFromParams() {
+    final idString = Get.parameters['id'] ?? '';
+    return int.tryParse(idString) ?? 0;
+  }
+
+  void _fetchIfNeeded() {
+    final id = _readIdFromParams();
+    if (id == 0) return;
+    if (_lastFetchedId == id) return;
+    _lastFetchedId = id;
+
+    Future.microtask(() => fetchMusicDetail(id));
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _fetchIfNeeded();
+  }
+
   Future<void> fetchMusicDetail(int id) async {
     try {
       isLoading.value = true;
