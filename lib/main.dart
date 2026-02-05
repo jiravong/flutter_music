@@ -21,7 +21,7 @@ Future<void> main() async {
 
   // If token exists, go directly to music list. Otherwise, show login page.
   final initialRoute =
-      (token != null && token.isNotEmpty) ? AppRoutes.home : AppRoutes.login;
+      (token != null && token.isNotEmpty) ? AppRoutes.landing : AppRoutes.login;
 
   runApp(MyApp(initialRoute: initialRoute));
 }
