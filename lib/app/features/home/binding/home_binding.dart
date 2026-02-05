@@ -12,9 +12,11 @@ class HomeBinding extends Bindings {
   @override
   void dependencies() {
     // Presentation
-    Get.lazyPut<HomeController>(
-      () => HomeController(),
-    );
+    if (!Get.isRegistered<HomeController>()) {
+      Get.lazyPut<HomeController>(
+        () => HomeController(),
+      );
+    }
 
     PlayerBinding().dependencies();
     MusicBinding().dependencies();

@@ -1,9 +1,7 @@
-import 'package:flutter_music_clean_getx/app/features/home/controllers/home_controller.dart';
 import 'package:flutter_music_clean_getx/app/features/landing/controllers/landing_controller.dart';
 import 'package:get/get.dart';
 
-import '../../music_list/bindings/music_binding.dart';
-import '../../player/bindings/player_binding.dart';
+import '../../home/binding/home_binding.dart';
 
 // Bindings are GetX's dependency injection entry point for a route.
 //
@@ -12,11 +10,10 @@ import '../../player/bindings/player_binding.dart';
 class LandingBinding extends Bindings {
   @override
   void dependencies() {
-    // Presentation
-    Get.lazyPut<LandingController>(() => LandingController());
-    Get.lazyPut<HomeController>(() => HomeController());
+    HomeBinding().dependencies();
 
-    PlayerBinding().dependencies();
-    MusicBinding().dependencies();
+    if (!Get.isRegistered<LandingController>()) {
+      Get.lazyPut<LandingController>(() => LandingController());
+    }
   }
 }

@@ -13,12 +13,18 @@ class MusicBinding extends Bindings {
   @override
   void dependencies() {
     // Data -> Domain
-    Get.lazyPut<MusicRepository>(() => MusicRepositoryImpl(Get.find()));
-    Get.lazyPut<GetMusicListUseCase>(() => GetMusicListUseCase(Get.find()));
+    if (!Get.isRegistered<MusicRepository>()) {
+      Get.lazyPut<MusicRepository>(() => MusicRepositoryImpl(Get.find()));
+    }
+    if (!Get.isRegistered<GetMusicListUseCase>()) {
+      Get.lazyPut<GetMusicListUseCase>(() => GetMusicListUseCase(Get.find()));
+    }
 
     // Presentation
-    Get.lazyPut<MusicListController>(
-      () => MusicListController(getMusicListUseCase: Get.find()),
-    );
+    if (!Get.isRegistered<MusicListController>()) {
+      Get.lazyPut<MusicListController>(
+        () => MusicListController(getMusicListUseCase: Get.find()),
+      );
+    }
   }
 }
