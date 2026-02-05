@@ -59,6 +59,7 @@ class ApiClient extends GetConnect {
   @override
   void onInit() {
     httpClient.baseUrl = ApiEndpoints.baseUrl;
+    httpClient.timeout = const Duration(seconds: 60);
 
     // 1. ส่วนของการ Log (ใส่ไว้บนสุดของ onInit เลยก็ได้ หรือก่อน Authenticator)
     if (kDebugMode) {
