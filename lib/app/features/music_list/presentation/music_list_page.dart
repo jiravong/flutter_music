@@ -49,15 +49,24 @@ class MusicListPage extends GetView<MusicListController> {
               final music = controller.musics[index];
               return ListTile(
                 key: ValueKey('musicList.tile.${music.id}'),
-                title: Text(music.title),
-                subtitle: Text(music.artist),
+                title: Row(
+                  children: [
+                    SizedBox(width: 40, height: 40, child: ClipRRect(borderRadius: BorderRadius.circular(20), child: Image.network(music.imageUrl, fit: BoxFit.cover,errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note)))),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(music.title),
+                        Text(music.artist, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                      ],
+                    ),
+                  ],
+                ),
                 trailing: IconButton(
                   key: ValueKey('musicList.playButton.${music.id}'),
                   icon: Obx(() {
                     // Show play/pause icon based on controller playback state.
-                    final isThisPlaying =
-                        controller.playingUrl.value == music.mp3Url &&
-                            controller.isPlaying.value;
+                    final isThisPlaying = controller.playingUrl.value == music.mp3Url && controller.isPlaying.value;
                     return Icon(isThisPlaying ? Icons.pause : Icons.play_arrow);
                   }),
                   // Send mp3 url to controller to handle just_audio playback.
@@ -65,10 +74,7 @@ class MusicListPage extends GetView<MusicListController> {
                 ),
                 onTap: () {
                   // Navigate to detail page and pass id via path + parameters.
-                  Get.toNamed(
-                    AppRoutes.musicDetail.replaceFirst(':id', '${music.id}'),
-                    parameters: {'id': '${music.id}'},
-                  );
+                  Get.toNamed(AppRoutes.musicDetail.replaceFirst(':id', '${music.id}'), parameters: {'id': '${music.id}'});
                 },
               );
             },

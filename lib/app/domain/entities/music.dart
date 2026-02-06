@@ -9,6 +9,7 @@ class Music {
     required this.lyrics,
     required this.mp3Url,
     required this.mp4Url,
+    required this.imageUrl,
   });
 
   // Primary identifier from backend.
@@ -24,4 +25,5 @@ class Music {
   // Remote URLs used for streaming / playback.
   final String mp3Url;
   final String mp4Url;
+  final String imageUrl;
 }

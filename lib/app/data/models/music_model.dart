@@ -12,6 +12,7 @@ class MusicModel extends Music {
     required super.lyrics,
     required super.mp3Url,
     required super.mp4Url,
+    required super.imageUrl,
   });
 
   // Convert API JSON payload into a strongly typed model.
@@ -38,6 +39,7 @@ class MusicModel extends Music {
       lyrics: readString(json['lyrics']),
       mp3Url: readString(mp3),
       mp4Url: readString(mp4),
+      imageUrl: readString(json['image_url'] ?? json['imageUrl'] ?? json['image'] ?? ''),
     );
   }
 }

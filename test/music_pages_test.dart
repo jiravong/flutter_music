@@ -42,6 +42,7 @@ void main() {
         lyrics: 'Lyrics',
         mp3Url: 'https://example.com/1.mp3',
         mp4Url: 'https://example.com/1.mp4',
+        imageUrl: 'https://example.com/1.jpg',
       ),
     ]);
 
@@ -66,6 +67,7 @@ void main() {
         lyrics: 'Lyrics',
         mp3Url: 'https://example.com/1.mp3',
         mp4Url: 'https://example.com/1.mp4',
+        imageUrl: 'https://example.com/1.jpg',
       ),
     ]);
 

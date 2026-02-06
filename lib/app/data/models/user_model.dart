@@ -1,25 +1,17 @@
-class UserModel {
-  const UserModel({
-    required this.id,
-    required this.createdBy,
-    required this.updatedBy,
-    this.createdAt,
-    this.updatedAt,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    this.imageProfile,
-  });
+import 'package:flutter_music_clean_getx/app/domain/entities/user.dart';
 
-  final int id;
-  final String createdBy;
-  final String updatedBy;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final String? imageProfile;
+class UserModel extends User {
+  const UserModel({
+    required super.id,
+    required super.createdBy,
+    required super.updatedBy,
+    super.createdAt,
+    super.updatedAt,
+    required super.email,
+    required super.firstName,
+    required super.lastName,
+    super.imageProfile,
+  });
 
   static DateTime? _tryParseDateTime(dynamic value) {
     if (value == null) return null;
