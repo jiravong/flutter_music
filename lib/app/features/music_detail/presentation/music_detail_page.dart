@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/widgets/appbar/appbar.dart';
+import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:get/get.dart';
 
 import '../controllers/music_detail_controller.dart';
@@ -12,8 +14,8 @@ class MusicDetailPage extends GetView<MusicDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Music Detail')),
+    return BaseScaffold(
+      appBar: CoreAppBar(title: 'Music Detail', showBackButton: true),
       body: Obx(() {
         // State: Loading
         if (controller.isLoading.value) {
@@ -36,6 +38,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Image.network(music.imageUrl),
               Text(
                 music.title,
                 key: const ValueKey('musicDetail.title'),

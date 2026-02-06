@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
+import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_routes.dart';
@@ -19,8 +21,7 @@ class MusicListPage extends GetView<MusicListController> {
       controller.fetchMusicList();
     }
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Music')),
+    return BaseScaffold(
       body: Obx(() {
         // State: Loading
         if (controller.isLoading.value) {
@@ -51,13 +52,24 @@ class MusicListPage extends GetView<MusicListController> {
                 key: ValueKey('musicList.tile.${music.id}'),
                 title: Row(
                   children: [
-                    SizedBox(width: 40, height: 40, child: ClipRRect(borderRadius: BorderRadius.circular(20), child: Image.network(music.imageUrl, fit: BoxFit.cover,errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note)))),
+                    SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          music.imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note),
+                        ),
+                      ),
+                    ),
                     const SizedBox(width: 12),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(music.title),
-                        Text(music.artist, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                        Text(music.title, style: AppTextStyle.textMdBold),
+                        Text(music.artist, style: AppTextStyle.textMdRegular),
                       ],
                     ),
                   ],
