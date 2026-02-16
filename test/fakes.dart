@@ -5,7 +5,7 @@ import 'package:flutter_music_clean_getx/app/features/player/controllers/player_
 class FakePlayerController extends GetxController implements PlayerController {
   @override
   final isPlaying = false.obs;
-
+// aaa
   @override
   final playingUrl = ''.obs;
 
