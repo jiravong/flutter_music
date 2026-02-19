@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
 import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/appbar/appbar.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
+import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:get/get.dart';
 
 import '../controllers/profile_controller.dart';
@@ -13,12 +15,60 @@ class ProfilePage extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       appBar: CoreAppBar(title: 'Profile', showBackButton: true),
-      body: Obx(() => Center(
-        child: Text(
-          'Profile ${controller.user.value?.fullName ?? '---'}',
-          style: AppTextStyle.textLgRegular,
+      body: Obx(
+        () => Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: CoreImageNetwork(
+                  imageUrl: controller.user.value?.imageProfile ?? '',
+                  width: 64,
+                  height: 64,
+                  errorWidget: Image.asset(
+                    'assets/images/user.png',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  '${controller.user.value?.firstName ?? ''} ${controller.user.value?.lastName ?? ''}',
+                  style: AppTextStyle.textLgBold,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Settings',
+                style: AppTextStyle.textMdBold,
+                textAlign: TextAlign.center,
+              ),
+              Expanded(child: SizedBox.shrink()),
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    controller.logout();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: AppColors.error,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      'Logout',
+                      style: AppTextStyle.textMdRegular,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
