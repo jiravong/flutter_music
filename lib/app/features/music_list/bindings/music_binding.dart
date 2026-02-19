@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../../../data/repositories/music_repository_impl.dart';
 import '../../../domain/repositories/music_repository.dart';
-import '../../../domain/usecases/get_music_list_usecase.dart';
+import '../../../domain/usecases/get_music_page_usecase.dart';
 import '../controllers/music_list_controller.dart';
 
 // Bindings for music screens.
@@ -16,14 +16,14 @@ class MusicBinding extends Bindings {
     if (!Get.isRegistered<MusicRepository>()) {
       Get.lazyPut<MusicRepository>(() => MusicRepositoryImpl(Get.find()));
     }
-    if (!Get.isRegistered<GetMusicListUseCase>()) {
-      Get.lazyPut<GetMusicListUseCase>(() => GetMusicListUseCase(Get.find()));
+    if (!Get.isRegistered<GetMusicPageUseCase>()) {
+      Get.lazyPut<GetMusicPageUseCase>(() => GetMusicPageUseCase(Get.find()));
     }
 
     // Presentation
     if (!Get.isRegistered<MusicListController>()) {
       Get.lazyPut<MusicListController>(
-        () => MusicListController(getMusicListUseCase: Get.find()),
+        () => MusicListController(getMusicPageUseCase: Get.find()),
       );
     }
   }

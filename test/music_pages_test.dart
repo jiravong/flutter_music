@@ -3,9 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_music_clean_getx/app/domain/entities/music.dart';
+import 'package:flutter_music_clean_getx/app/domain/entities/music_page.dart';
 import 'package:flutter_music_clean_getx/app/domain/repositories/music_repository.dart';
 import 'package:flutter_music_clean_getx/app/domain/usecases/get_music_detail_usecase.dart';
-import 'package:flutter_music_clean_getx/app/domain/usecases/get_music_list_usecase.dart';
+import 'package:flutter_music_clean_getx/app/domain/usecases/get_music_page_usecase.dart';
 import 'package:flutter_music_clean_getx/app/features/music_detail/controllers/music_detail_controller.dart';
 import 'package:flutter_music_clean_getx/app/features/music_detail/presentation/music_detail_page.dart';
 import 'package:flutter_music_clean_getx/app/features/music_list/controllers/music_list_controller.dart';
@@ -21,6 +22,11 @@ class FakeMusicRepository implements MusicRepository {
 
   @override
   Future<List<Music>> getAll() async => items;
+
+  @override
+  Future<MusicPage> getPage({int page = 1, int limit = 10}) async {
+    return MusicPage(items: items, page: page, limit: limit, total: items.length);
+  }
 
   @override
   Future<Music> getById(int id) async => items.firstWhere((e) => e.id == id);
@@ -46,8 +52,8 @@ void main() {
       ),
     ]);
 
-    final useCase = GetMusicListUseCase(repo);
-    Get.put<MusicListController>(MusicListController(getMusicListUseCase: useCase));
+    final useCase = GetMusicPageUseCase(repo);
+    Get.put<MusicListController>(MusicListController(getMusicPageUseCase: useCase));
 
     await tester.pumpWidget(const GetMaterialApp(home: MusicListPage()));
     await tester.pump();

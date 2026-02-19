@@ -1,5 +1,6 @@
 import '../../core/constants/api_endpoints.dart';
 import '../../domain/entities/music.dart';
+import '../../domain/entities/music_page.dart';
 import '../../domain/repositories/music_repository.dart';
 import '../models/music_model.dart';
 import '../providers/api_client.dart';
@@ -41,6 +42,37 @@ class MusicRepositoryImpl implements MusicRepository {
         .whereType<Map>()
         .map((e) => MusicModel.fromJson(e.cast<String, dynamic>()))
         .toList(growable: false);
+  }
+
+  @override
+  Future<MusicPage> getPage({int page = 1, int limit = 10}) async {
+    final response = await _client.get(
+      '${ApiEndpoints.music}?page=$page&limit=$limit',
+    );
+
+    if (!response.isOk) {
+      throw Exception(response.statusText ?? 'Failed to fetch music list');
+    }
+
+    final body = response.body;
+    if (body is! Map<String, dynamic>) throw Exception('Invalid response');
+
+    final list = body['data'] is List ? body['data'] as List : <dynamic>[];
+    final pagination = body['pagination'] is Map<String, dynamic>
+        ? body['pagination'] as Map<String, dynamic>
+        : <String, dynamic>{};
+
+    final items = list
+        .whereType<Map>()
+        .map((e) => MusicModel.fromJson(e.cast<String, dynamic>()))
+        .toList(growable: false);
+
+    return MusicPage(
+      items: items,
+      page: (pagination['page'] as num?)?.toInt() ?? page,
+      limit: (pagination['limit'] as num?)?.toInt() ?? limit,
+      total: (pagination['total'] as num?)?.toInt() ?? items.length,
+    );
   }
 
   @override

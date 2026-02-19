@@ -4,6 +4,7 @@ import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../routes/app_routes.dart';
 import '../controllers/music_list_controller.dart';
@@ -12,17 +13,52 @@ import '../controllers/music_list_controller.dart';
 //
 // Uses GetView to access MusicController injected by MusicBinding.
 // Uses Obx to rebuild parts of UI based on observable variables.
-class MusicListPage extends GetView<MusicListController> {
+class MusicListPage extends StatefulWidget {
   const MusicListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Simple "first load" trigger.
-    // In production, you might prefer onReady() inside controller.
+  State<MusicListPage> createState() => _MusicListPageState();
+}
+
+class _MusicListPageState extends State<MusicListPage> {
+  late final MusicListController controller;
+  final RefreshController _refreshController = RefreshController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<MusicListController>();
     if (controller.musics.isEmpty && !controller.isLoading.value) {
       controller.fetchMusicList();
     }
+  }
 
+  Future<void> _onRefresh() async {
+    await controller.fetchMusicList();
+    _refreshController.refreshCompleted();
+  }
+
+  Future<void> _onLoadMore() async {
+    if (!controller.hasMore) {
+      _refreshController.loadNoData();
+      return;
+    }
+    await controller.loadMore();
+    if (controller.hasMore) {
+      _refreshController.loadComplete();
+    } else {
+      _refreshController.loadNoData();
+    }
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BaseScaffold(
       body: Obx(() {
         // State: Loading
@@ -41,9 +77,20 @@ class MusicListPage extends GetView<MusicListController> {
         }
 
         // State: Success
-        return RefreshIndicator(
+        return SmartRefresher(
           key: const ValueKey('musicList.refresh'),
-          onRefresh: controller.fetchMusicList,
+          controller: _refreshController,
+          enablePullDown: true,
+          enablePullUp: true,
+          onRefresh: _onRefresh,
+          onLoading: _onLoadMore,
+          footer: ClassicFooter(
+            loadingText: '',
+            noDataText: '',
+            idleText: '',
+            canLoadingText: '',
+            loadStyle: LoadStyle.ShowWhenLoading,
+          ),
           child: ListView.separated(
             key: const ValueKey('musicList.listView'),
             itemCount: controller.musics.length,
@@ -83,17 +130,14 @@ class MusicListPage extends GetView<MusicListController> {
                 trailing: IconButton(
                   key: ValueKey('musicList.playButton.${music.id}'),
                   icon: Obx(() {
-                    // Show play/pause icon based on controller playback state.
                     final isThisPlaying = controller.isPlayingUrl(music.mp3Url);
                     final activeColor = AppColors.white;
                     final inactiveColor = AppColors.primary;
                     return Icon(isThisPlaying ? Icons.pause : Icons.play_arrow, color: isThisPlaying ? activeColor : inactiveColor);
                   }),
-                  // Send mp3 url to controller to handle just_audio playback.
                   onPressed: () => controller.playMusic(music),
                 ),
                 onTap: () {
-                  // Navigate to detail page and pass id via path + parameters.
                   Get.toNamed(AppRoutes.musicDetail.replaceFirst(':id', '${music.id}'), parameters: {'id': '${music.id}'});
                 },
               );
