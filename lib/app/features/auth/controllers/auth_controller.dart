@@ -1,3 +1,4 @@
+import 'package:flutter_music_clean_getx/app/core/services/analytics_service.dart';
 import 'package:flutter_music_clean_getx/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,6 +41,8 @@ class AuthController extends GetxController {
       final tokens = await loginUseCase(email: email, password: password);
       await tokenStorage.writeToken(tokens.accessToken);
       await tokenStorage.writeRefreshToken(tokens.refreshToken);
+
+      await AnalyticsService.to.logLogin();
 
       // Replace navigation stack so user can't go back to login.
       Get.offAllNamed(AppRoutes.landing);

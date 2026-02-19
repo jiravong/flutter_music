@@ -67,3 +67,8 @@ DerivedData/
 
 # VS Code
 # .vscode/
+
+# Firebase - sensitive config files, do not commit
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart

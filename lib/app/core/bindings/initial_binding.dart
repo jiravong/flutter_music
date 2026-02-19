@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../services/analytics_service.dart';
 import '../storage/token_storage.dart';
 import '../../data/providers/api_client.dart';
 import '../../data/repositories/auth_repository_impl.dart';
@@ -12,6 +13,9 @@ import '../../features/player/bindings/player_binding.dart';
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
+    if (!Get.isRegistered<AnalyticsService>()) {
+      Get.put<AnalyticsService>(AnalyticsService(), permanent: true);
+    }
     if (!Get.isRegistered<GetStorage>()) {
       Get.put<GetStorage>(GetStorage(), permanent: true);
     }

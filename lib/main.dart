@@ -1,10 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'app/core/bindings/initial_binding.dart';
+import 'app/core/services/analytics_service.dart';
 import 'app/routes/app_pages.dart';
 import 'app/routes/app_routes.dart';
+import 'firebase_options.dart';
 
 // App entry point.
 //
@@ -12,6 +15,7 @@ import 'app/routes/app_routes.dart';
 // persisted JWT token to decide the first screen.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
 
   // Read token directly for a quick initialRoute decision.
@@ -38,6 +42,9 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: InitialBinding(),
       initialRoute: initialRoute,
+      navigatorObservers: [
+        AnalyticsService.to.observer,
+      ],
       // Route -> page mapping.
       getPages: AppPages.pages,
     );
