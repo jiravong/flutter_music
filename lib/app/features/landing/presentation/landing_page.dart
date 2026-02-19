@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/mini_player_bar.dart';
 import 'package:flutter_music_clean_getx/app/features/home/presentation/home_page.dart';
 import 'package:flutter_music_clean_getx/app/features/landing/controllers/landing_controller.dart';
@@ -28,6 +29,9 @@ class LandingPage extends GetView<LandingController> {
           MiniPlayerBar(),
           Obx(() => BottomNavigationBar(
             currentIndex: controller.tabIndex.value,
+            backgroundColor: AppColors.background,
+            selectedItemColor: AppColors.primary,
+            unselectedItemColor: AppColors.white,
             onTap: controller.changeTabIndex,
             type: BottomNavigationBarType.fixed,
             items: const [

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:flutter_music_clean_getx/app/features/player/controllers/player_controller.dart';
 import 'package:get/get.dart';
@@ -15,7 +17,7 @@ class MiniPlayerBar extends StatelessWidget {
       if (music == null) return const SizedBox.shrink();
 
       return Material(
-        color: Theme.of(context).colorScheme.surface,
+        color: AppColors.backgroundDark,
         elevation: 6,
         child: SizedBox(
           height: 56,
@@ -39,23 +41,22 @@ class MiniPlayerBar extends StatelessWidget {
                         music.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: AppTextStyle.textSmBold,
                       ),
                       const SizedBox(height: 2),
                       Text(
                         music.artist,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: AppTextStyle.textXsRegular.copyWith(color: AppColors.textSecondary),
                       ),
                     ],
                   ),
                 ),
                 Obx(() {
                   final isThisPlaying = controller.isPlayingMusic(music);
-                  final activeColor = Theme.of(context).colorScheme.primary;
-                  final inactiveColor =
-                      Theme.of(context).iconTheme.color?.withValues(alpha: 0.45);
+                  final activeColor = AppColors.white;
+                  final inactiveColor = AppColors.primary;
                   return IconButton(
                     icon: Icon(
                       isThisPlaying ? Icons.pause : Icons.play_arrow,

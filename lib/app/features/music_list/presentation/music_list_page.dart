@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
 import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
@@ -68,8 +69,13 @@ class MusicListPage extends GetView<MusicListController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(music.title, style: AppTextStyle.textMdBold),
-                        Text(music.artist, style: AppTextStyle.textMdRegular),
+                        Text(music.title, style: AppTextStyle.textSmBold),
+                        Text(
+                          music.artist,
+                          style: AppTextStyle.textXsRegular.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -79,7 +85,9 @@ class MusicListPage extends GetView<MusicListController> {
                   icon: Obx(() {
                     // Show play/pause icon based on controller playback state.
                     final isThisPlaying = controller.isPlayingUrl(music.mp3Url);
-                    return Icon(isThisPlaying ? Icons.pause : Icons.play_arrow);
+                    final activeColor = AppColors.white;
+                    final inactiveColor = AppColors.primary;
+                    return Icon(isThisPlaying ? Icons.pause : Icons.play_arrow, color: isThisPlaying ? activeColor : inactiveColor);
                   }),
                   // Send mp3 url to controller to handle just_audio playback.
                   onPressed: () => controller.playMusic(music),
