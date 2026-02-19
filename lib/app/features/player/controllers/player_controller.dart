@@ -27,7 +27,12 @@ class PlayerController extends GetxController {
   void onInit() {
     _player = AudioPlayer();
     _playerStateSub = _player.playerStateStream.listen((state) {
-      isPlaying.value = state.playing;
+      if (state.processingState == ProcessingState.completed) {
+        isPlaying.value = false;
+        playingUrl.value = '';
+      } else {
+        isPlaying.value = state.playing;
+      }
     });
     super.onInit();
   }

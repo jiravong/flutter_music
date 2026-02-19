@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../../../domain/entities/music.dart';
 import '../../../domain/usecases/get_music_detail_usecase.dart';
 import '../../../domain/usecases/get_music_list_usecase.dart';
+import '../../player/controllers/player_controller.dart';
 
 // Presentation controller for music list/detail screens.
 //
 // Responsibility:
 // - Fetch data through domain use cases.
 // - Expose observable states for UI (loading/error/data).
-// - Control audio playback (just_audio) using a URL provided by UI.
+// - Delegate audio playback to PlayerController.
 class MusicController extends GetxController {
   MusicController({
     required this.getMusicListUseCase,
@@ -30,18 +30,12 @@ class MusicController extends GetxController {
   final isLoading = false.obs;
   final errorMessage = ''.obs;
 
-  // Playback state.
-  final isPlaying = false.obs;
-  final playingUrl = ''.obs;
+  final PlayerController _player = Get.find<PlayerController>();
 
-  late final AudioPlayer _player;
+  RxBool get isPlaying => _player.isPlaying;
+  RxString get playingUrl => _player.playingUrl;
 
-  @override
-  void onInit() {
-    // Create player once per controller lifecycle.
-    _player = AudioPlayer();
-    super.onInit();
-  }
+  bool isPlayingUrl(String url) => _player.isPlayingUrl(url);
 
   // Fetch music list and update `musics`.
   Future<void> fetchMusicList() async {
@@ -73,44 +67,15 @@ class MusicController extends GetxController {
     }
   }
 
-  // Toggle play/pause for a given remote url.
-  //
-  // UI passes the mp3 url (from list/detail), controller manages the player.
   Future<void> playUrl(String url) async {
-    try {
-      errorMessage.value = '';
-      if (url.isEmpty) {
-        throw Exception('Empty url');
-      }
-
-      // If user taps the same item while playing, pause it.
-      if (playingUrl.value == url && _player.playing) {
-        await _player.pause();
-        isPlaying.value = false;
-        return;
-      }
-
-      // Otherwise switch to the new URL and start playing.
-      playingUrl.value = url;
-      await _player.setUrl(url);
-      await _player.play();
-      isPlaying.value = true;
-    } catch (e) {
-      errorMessage.value = e.toString();
-      isPlaying.value = false;
-    }
+    await _player.playUrl(url);
   }
 
-  // Stop playback.
+  Future<void> playMusic(Music music) async {
+    await _player.playMusic(music);
+  }
+
   Future<void> stop() async {
     await _player.stop();
-    isPlaying.value = false;
-  }
-
-  @override
-  void onClose() {
-    // Always dispose resources.
-    _player.dispose();
-    super.onClose();
   }
 }
