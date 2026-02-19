@@ -44,9 +44,14 @@ class PlayerController extends GetxController {
         throw Exception('Empty url');
       }
 
-      if (playingUrl.value == url && _player.playing) {
-        await _player.pause();
-        isPlaying.value = false;
+      if (playingUrl.value == url) {
+        if (_player.playing) {
+          await _player.pause();
+          isPlaying.value = false;
+        } else {
+          await _player.play();
+          isPlaying.value = true;
+        }
         return;
       }
 
