@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/appbar/appbar.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
+import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:get/get.dart';
 
 import '../controllers/music_detail_controller.dart';
@@ -38,7 +39,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(music.imageUrl),
+              CoreImageNetwork(imageUrl: music.imageUrl),
               Text(
                 music.title,
                 key: const ValueKey('musicDetail.title'),
