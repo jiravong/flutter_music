@@ -1,17 +1,40 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
+
+import '../../../domain/entities/music.dart';
 
 class PlayerController extends GetxController {
   final isPlaying = false.obs;
   final playingUrl = ''.obs;
   final errorMessage = ''.obs;
 
+  final currentMusic = Rxn<Music>();
+
   late final AudioPlayer _player;
+  StreamSubscription<PlayerState>? _playerStateSub;
+
+  bool isPlayingUrl(String url) {
+    return playingUrl.value == url && isPlaying.value;
+  }
+
+  bool isPlayingMusic(Music music) {
+    return isPlayingUrl(music.mp3Url);
+  }
 
   @override
   void onInit() {
     _player = AudioPlayer();
+    _playerStateSub = _player.playerStateStream.listen((state) {
+      isPlaying.value = state.playing;
+    });
     super.onInit();
+  }
+
+  Future<void> playMusic(Music music) async {
+    currentMusic.value = music;
+    await playUrl(music.mp3Url);
   }
 
   Future<void> playUrl(String url) async {
@@ -28,8 +51,11 @@ class PlayerController extends GetxController {
       }
 
       playingUrl.value = url;
-      await _player.setUrl(url);
-      await _player.play();
+      await _player.setUrl(url).timeout(const Duration(seconds: 20));
+
+      // Start playback. We set `isPlaying` optimistically; the stream listener
+      // will correct it based on the real player state.
+      _player.play();
       isPlaying.value = true;
     } catch (e) {
       errorMessage.value = e.toString();
@@ -44,6 +70,7 @@ class PlayerController extends GetxController {
 
   @override
   void onClose() {
+    _playerStateSub?.cancel();
     _player.dispose();
     super.onClose();
   }

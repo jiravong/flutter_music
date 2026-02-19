@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/widgets/mini_player_bar.dart';
 import 'package:flutter_music_clean_getx/app/features/home/presentation/home_page.dart';
 import 'package:flutter_music_clean_getx/app/features/landing/controllers/landing_controller.dart';
 import 'package:flutter_music_clean_getx/app/features/music_list/presentation/music_list_page.dart';
@@ -21,17 +22,23 @@ class LandingPage extends GetView<LandingController> {
           const ProfilePage(),
         ],
       )),
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-        currentIndex: controller.tabIndex.value,
-        onTap: controller.changeTabIndex,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',key: ValueKey('landing.home')),
-          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music',key: ValueKey('landing.music')),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore',key: ValueKey('landing.explore')),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile',key: ValueKey('landing.profile')),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          MiniPlayerBar(),
+          Obx(() => BottomNavigationBar(
+            currentIndex: controller.tabIndex.value,
+            onTap: controller.changeTabIndex,
+            type: BottomNavigationBarType.fixed,
+            items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home',key: ValueKey('landing.home')),
+              BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Music',key: ValueKey('landing.music')),
+              BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore',key: ValueKey('landing.explore')),
+              BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile',key: ValueKey('landing.profile')),
+            ],
+          )),
         ],
-      )),
+      ),
     );
   }
 }

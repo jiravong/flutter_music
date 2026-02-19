@@ -45,7 +45,7 @@ class CoreImageNetwork extends StatelessWidget {
             width: width,
             height: height,
             child: const Center(
-              child: Icon(Icons.broken_image_outlined),
+              child: Icon(Icons.music_note),
             ),
           ),
     );

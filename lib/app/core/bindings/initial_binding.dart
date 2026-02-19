@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../storage/token_storage.dart';
 import '../../data/providers/api_client.dart';
+import '../../features/player/bindings/player_binding.dart';
 
 class InitialBinding extends Bindings {
   @override
@@ -22,5 +23,7 @@ class InitialBinding extends Bindings {
         permanent: true,
       );
     }
+
+    PlayerBinding().dependencies();
   }
 }

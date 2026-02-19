@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
+import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_routes.dart';
@@ -57,10 +58,9 @@ class MusicListPage extends GetView<MusicListController> {
                       height: 40,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          music.imageUrl,
+                        child: CoreImageNetwork(
+                          imageUrl: music.imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note),
                         ),
                       ),
                     ),
@@ -78,11 +78,11 @@ class MusicListPage extends GetView<MusicListController> {
                   key: ValueKey('musicList.playButton.${music.id}'),
                   icon: Obx(() {
                     // Show play/pause icon based on controller playback state.
-                    final isThisPlaying = controller.playingUrl.value == music.mp3Url && controller.isPlaying.value;
+                    final isThisPlaying = controller.isPlayingUrl(music.mp3Url);
                     return Icon(isThisPlaying ? Icons.pause : Icons.play_arrow);
                   }),
                   // Send mp3 url to controller to handle just_audio playback.
-                  onPressed: () => controller.playUrl(music.mp3Url),
+                  onPressed: () => controller.playMusic(music),
                 ),
                 onTap: () {
                   // Navigate to detail page and pass id via path + parameters.

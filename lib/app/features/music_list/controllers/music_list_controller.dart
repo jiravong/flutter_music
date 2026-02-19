@@ -19,6 +19,8 @@ class MusicListController extends GetxController {
   RxBool get isPlaying => _player.isPlaying;
   RxString get playingUrl => _player.playingUrl;
 
+  bool isPlayingUrl(String url) => _player.isPlayingUrl(url);
+
   Future<void> fetchMusicList() async {
     try {
       isLoading.value = true;
@@ -35,6 +37,10 @@ class MusicListController extends GetxController {
 
   Future<void> playUrl(String url) async {
     await _player.playUrl(url);
+  }
+
+  Future<void> playMusic(Music music) async {
+    await _player.playMusic(music);
   }
 
   Future<void> stop() async {

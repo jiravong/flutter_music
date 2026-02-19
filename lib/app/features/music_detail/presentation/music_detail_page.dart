@@ -65,11 +65,9 @@ class MusicDetailPage extends GetView<MusicDetailController> {
                     child: ElevatedButton(
                       // Delegate playback to controller.
                       key: const ValueKey('musicDetail.playButton'),
-                      onPressed: () => controller.playUrl(music.mp3Url),
+                      onPressed: () => controller.playMusic(music),
                       child: Obx(() {
-                        final isThisPlaying =
-                            controller.playingUrl.value == music.mp3Url &&
-                                controller.isPlaying.value;
+                        final isThisPlaying = controller.isPlayingUrl(music.mp3Url);
                         return Text(isThisPlaying ? 'Pause' : 'Play');
                       }),
                     ),
@@ -77,9 +75,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Obx(() {
-                      final isThisPlaying =
-                          controller.playingUrl.value == music.mp3Url &&
-                              controller.isPlaying.value;
+                      final isThisPlaying = controller.isPlayingUrl(music.mp3Url);
                       return ElevatedButton(
                         key: const ValueKey('musicDetail.stopButton'),
                         onPressed: isThisPlaying ? controller.stop : null,
