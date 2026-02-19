@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +12,7 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       // แสดงผลหน้าตาม Index ที่เลือก
-      body: const Center(child: Text('Home', style: TextStyle(fontSize: 24))),
+      body: Center(child: Text('Home', style: AppTextStyle.textLgRegular)),
     );
   }
 }

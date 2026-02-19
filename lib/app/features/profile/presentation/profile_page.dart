@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/appbar/appbar.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class ProfilePage extends GetView<ProfileController> {
       body: Obx(() => Center(
         child: Text(
           'Profile ${controller.user.value?.fullName ?? '---'}',
-          style: const TextStyle(fontSize: 24),
+          style: AppTextStyle.textLgRegular,
         ),
       )),
     );
