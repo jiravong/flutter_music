@@ -50,7 +50,13 @@ class MusicDetailPage extends GetView<MusicDetailController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CoreImageNetwork(imageUrl: music.imageUrl),
+              Center(
+                child: _RotatingAlbumArt(
+                  imageUrl: music.imageUrl,
+                  mp3Url: music.mp3Url,
+                ),
+              ),
+              const SizedBox(height: 16),
               Text(
                 'นักร้อง: ${music.artist}',
                 key: const ValueKey('musicDetail.artist'),
@@ -95,5 +101,66 @@ class MusicDetailPage extends GetView<MusicDetailController> {
         ),
       );
     });
+  }
+}
+
+// Rotating album art widget.
+//
+// Spins while the given mp3Url is actively playing, pauses otherwise.
+class _RotatingAlbumArt extends StatefulWidget {
+  const _RotatingAlbumArt({required this.imageUrl, required this.mp3Url});
+
+  final String imageUrl;
+  final String mp3Url;
+
+  @override
+  State<_RotatingAlbumArt> createState() => _RotatingAlbumArtState();
+}
+
+class _RotatingAlbumArtState extends State<_RotatingAlbumArt>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _rotationController;
+  late final MusicDetailController _controller;
+  Worker? _worker;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = Get.find<MusicDetailController>();
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 30),
+    );
+
+    // Start rotating immediately if already playing when page opens.
+    if (_controller.isPlayingUrl(widget.mp3Url)) {
+      _rotationController.repeat();
+    }
+
+    _worker = ever(_controller.isPlaying, (bool _) {
+      if (_controller.isPlayingUrl(widget.mp3Url)) {
+        _rotationController.repeat();
+      } else {
+        _rotationController.stop();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _worker?.dispose();
+    _rotationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(
+      turns: _rotationController,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: CoreImageNetwork(imageUrl: widget.imageUrl, width: 200, height: 200),
+      ),
+    );
   }
 }
