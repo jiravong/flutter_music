@@ -17,6 +17,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
+  Get.put<AnalyticsService>(AnalyticsService(), permanent: true);
 
   // Read token directly for a quick initialRoute decision.
   // (TokenStorage abstraction is used elsewhere; here we keep it minimal.)
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [
         AnalyticsService.to.observer,
       ],
+      // Note: AnalyticsService is registered in main() before runApp.
       // Route -> page mapping.
       getPages: AppPages.pages,
     );
