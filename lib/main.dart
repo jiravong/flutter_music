@@ -18,10 +18,7 @@ Future<void> main() async {
   // (TokenStorage abstraction is used elsewhere; here we keep it minimal.)
   final box = GetStorage();
   final token = box.read<String>('access_token');
-
-  // If token exists, go directly to music list. Otherwise, show login page.
-  final initialRoute =
-      (token != null && token.isNotEmpty) ? AppRoutes.landing : AppRoutes.login;
+  final initialRoute = (token != null && token.isNotEmpty) ? AppRoutes.landing : AppRoutes.login;
 
   runApp(MyApp(initialRoute: initialRoute));
 }

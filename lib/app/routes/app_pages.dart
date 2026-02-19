@@ -6,7 +6,6 @@ import 'package:flutter_music_clean_getx/app/features/profile/bindings/profile_b
 import 'package:flutter_music_clean_getx/app/features/profile/presentation/profile_page.dart';
 import 'package:get/get.dart';
 
-import '../features/auth/bindings/auth_binding.dart';
 import '../features/auth/presentation/login_page.dart';
 import '../features/music_detail/bindings/music_detail_binding.dart';
 import '../features/music_list/bindings/music_binding.dart';
@@ -24,7 +23,8 @@ class AppPages {
     GetPage(
       name: AppRoutes.login,
       page: () => const LoginPage(),
-      binding: AuthBinding(),
+      preventDuplicates: true,
+      maintainState: true,
     ),
     GetPage(
       name: AppRoutes.landing,

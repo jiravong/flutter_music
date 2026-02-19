@@ -26,6 +26,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
     // GetConnect exposes isOk for 2xx status codes.
     if (!response.isOk) {
+      final body = response.body;
+      if (body is Map<String, dynamic>) {
+        final message = body['error'] ?? body['message'] ?? body['msg'];
+        if (message is String && message.isNotEmpty) {
+          throw Exception(message);
+        }
+      }
       throw Exception(response.statusText ?? 'Login failed');
     }
 

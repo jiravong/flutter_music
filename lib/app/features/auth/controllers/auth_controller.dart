@@ -24,6 +24,12 @@ class AuthController extends GetxController {
   final isLoading = false.obs;
   final errorMessage = ''.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    debugPrint('[AuthController] onInit called — hashCode: $hashCode');
+  }
+
   // Called by LoginPage.
   Future<void> login({required String email, required String password}) async {
     try {
@@ -36,10 +42,11 @@ class AuthController extends GetxController {
       await tokenStorage.writeRefreshToken(tokens.refreshToken);
 
       // Replace navigation stack so user can't go back to login.
-      Get.offAllNamed(AppRoutes.home);
+      Get.offAllNamed(AppRoutes.landing);
     } catch (e) {
       // Keep error as text to show in UI.
-      errorMessage.value = e.toString();
+      final msg = e.toString();
+      errorMessage.value = msg.startsWith('Exception: ') ? msg.substring(11) : msg;
     } finally {
       isLoading.value = false;
     }

@@ -22,12 +22,16 @@ class ProfilePage extends GetView<ProfileController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: CoreImageNetwork(
-                  imageUrl: controller.user.value?.imageProfile ?? '',
-                  width: 64,
-                  height: 64,
-                  errorWidget: Image.asset(
-                    'assets/images/user.png',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: CoreImageNetwork(
+                    imageUrl: controller.user.value?.imageProfile ?? '',
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    errorWidget: Image.asset(
+                      'assets/images/user.png',
+                    ),
                   ),
                 ),
               ),
