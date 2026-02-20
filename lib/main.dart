@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'app/core/bindings/initial_binding.dart';
 import 'app/core/services/analytics_service.dart';
+import 'app/core/services/connectivity_service.dart';
 import 'app/core/services/crashlytics_service.dart';
 import 'app/core/services/remote_config_service.dart';
 import 'app/routes/app_pages.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
 
   final remoteConfig = Get.put<RemoteConfigService>(RemoteConfigService(), permanent: true);
   await remoteConfig.init();
+  Get.put<ConnectivityService>(ConnectivityService(), permanent: true);
 
   // Catch Flutter framework errors.
   FlutterError.onError = CrashlyticsService.to.recordFlutterError;

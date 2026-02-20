@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
+import 'package:flutter_music_clean_getx/app/core/services/connectivity_service.dart';
 import 'package:flutter_music_clean_getx/app/domain/entities/music.dart';
 import 'package:flutter_music_clean_getx/app/domain/entities/music_page.dart';
 import 'package:flutter_music_clean_getx/app/domain/repositories/music_repository.dart';
@@ -14,6 +15,11 @@ import 'package:flutter_music_clean_getx/app/features/music_list/presentation/mu
 import 'package:flutter_music_clean_getx/app/features/player/controllers/player_controller.dart';
 
 import 'fakes.dart';
+
+class _FakeConnectivityService extends ConnectivityService {
+  @override
+  void setupConnectivity() {}
+}
 
 class FakeMusicRepository implements MusicRepository {
   FakeMusicRepository(this.items);
@@ -36,6 +42,7 @@ void main() {
   setUp(() {
     Get.reset();
     Get.testMode = true;
+    Get.put<ConnectivityService>(_FakeConnectivityService(), permanent: true);
     Get.put<PlayerController>(FakePlayerController());
   });
 

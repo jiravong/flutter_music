@@ -1,12 +1,18 @@
+import 'dart:ui';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'dart:ui';
 
-class CrashlyticsService extends GetxService {
+import '../mixins/error_handler_mixin.dart';
+
+class CrashlyticsService extends GetxService implements ErrorRecorder {
+  CrashlyticsService({FirebaseCrashlytics? crashlytics})
+      : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
+
   static CrashlyticsService get to => Get.find<CrashlyticsService>();
 
-  final FirebaseCrashlytics _crashlytics = FirebaseCrashlytics.instance;
+  final FirebaseCrashlytics _crashlytics;
 
   Future<void> init() async {
     await _crashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);

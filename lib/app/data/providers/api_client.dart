@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:developer' as developer; // ใช้สำหรับ log ยาวๆ ไม่ให้โดนตัด
 
 import '../../core/constants/api_endpoints.dart';
+import '../../core/services/connectivity_service.dart';
 import '../../core/storage/token_storage.dart';
 
 class ApiClient extends GetConnect {
@@ -87,7 +88,15 @@ class ApiClient extends GetConnect {
       });
     }
 
-    // 2. ส่วนของการจัดการ Token (Code เดิมของคุณ)
+    // 2. ตรวจสอบ connectivity ก่อนทุก request
+    httpClient.addRequestModifier<dynamic>((request) {
+      if (!ConnectivityService.to.isConnected.value) {
+        throw Exception('ไม่มีการเชื่อมต่ออินเทอร์เน็ต');
+      }
+      return request;
+    });
+
+    // 3. ส่วนของการจัดการ Token (Code เดิมของคุณ)
     httpClient.addRequestModifier<dynamic>((request) {
       final token = _tokenStorage.readToken();
       if (token != null && token.isNotEmpty) {
