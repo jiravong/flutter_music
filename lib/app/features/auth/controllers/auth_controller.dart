@@ -1,4 +1,5 @@
 import 'package:flutter_music_clean_getx/app/core/services/analytics_service.dart';
+import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
 import 'package:flutter_music_clean_getx/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,6 +42,9 @@ class AuthController extends GetxController {
       final tokens = await loginUseCase(email: email, password: password);
       await tokenStorage.writeToken(tokens.accessToken);
       await tokenStorage.writeRefreshToken(tokens.refreshToken);
+
+      // Update global auth state so middleware allows navigation
+      AuthService.to.setLoggedIn(true);
 
       await AnalyticsService.to.logLogin();
 
