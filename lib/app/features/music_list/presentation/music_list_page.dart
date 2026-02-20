@@ -68,7 +68,7 @@ class _MusicListPageState extends State<MusicListPage> {
 
         // State: Empty
         if (controller.musics.isEmpty) {
-          return const Center(child: Text('No music found'));
+          return Center(child: Text('No music found', style: AppTextStyle.textLgRegular));
         }
 
         // State: Success
