@@ -23,6 +23,9 @@ const Map<String, String> enUS = {
   'profile.title': 'Profile',
   'profile.settings': 'Settings',
   'profile.logout': 'Logout',
+  'profile.language': 'Language',
+  'profile.language.th': 'Thai',
+  'profile.language.en': 'English',
 
   // Common
   'common.noConnection': 'No internet connection',

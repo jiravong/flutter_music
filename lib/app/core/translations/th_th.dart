@@ -23,6 +23,9 @@ const Map<String, String> thTH = {
   'profile.title': 'โปรไฟล์',
   'profile.settings': 'การตั้งค่า',
   'profile.logout': 'ออกจากระบบ',
+  'profile.language': 'ภาษา',
+  'profile.language.th': 'ไทย',
+  'profile.language.en': 'อังกฤษ',
 
   // Common
   'common.noConnection': 'ไม่มีการเชื่อมต่ออินเทอร์เน็ต',

@@ -24,6 +24,11 @@ abstract class AppStrings {
   static const profileSettings = 'profile.settings';
   static const profileLogout = 'profile.logout';
 
+  // Language
+  static const profileLanguage = 'profile.language';
+  static const profileLanguageTh = 'profile.language.th';
+  static const profileLanguageEn = 'profile.language.en';
+
   // Common
   static const commonNoConnection = 'common.noConnection';
   static const commonError = 'common.error';
