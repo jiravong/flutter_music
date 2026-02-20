@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
 import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
-import 'package:get/get.dart';
 
 class CoreAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -42,7 +41,7 @@ class CoreAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (showBackButton && Navigator.canPop(context)) {
       return IconButton(
         icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.primary, size: 20),
-        onPressed: () => Get.back(),
+        onPressed: () => Navigator.of(context).pop(),
       );
     }
     return null;
