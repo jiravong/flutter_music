@@ -1,3 +1,4 @@
+import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
 import 'package:flutter/foundation.dart'; // อย่าลืม import อันนี้เพื่อใช้ kDebugMode
 import 'package:get/get.dart';
 import 'dart:async';
@@ -109,9 +110,10 @@ class ApiClient extends GetConnect {
 
     // 4. Interceptor สำหรับจับ 401 และ Refresh Token
     httpClient.addResponseModifier((request, response) async {
-      // ถ้าไม่ใช่ 401 หรือเป็นคำขอ refresh token เอง ให้ปล่อยผ่าน
+      // ถ้าไม่ใช่ 401 หรือเป็นคำขอ refresh token เอง หรือ login ให้ปล่อยผ่าน
       if (response.statusCode != 401 ||
-          request.url.path.endsWith(ApiEndpoints.refreshToken)) {
+          request.url.path.endsWith(ApiEndpoints.refreshToken) ||
+          request.url.path.endsWith(ApiEndpoints.login)) {
         return response;
       }
 
@@ -120,8 +122,7 @@ class ApiClient extends GetConnect {
 
       // ถ้า refresh ไม่สำเร็จ (เช่น refresh token หมดอายุ) -> logout
       if (newToken == null || newToken.isEmpty) {
-        await _tokenStorage.clearToken();
-        Get.offAllNamed('/login');
+        await AuthService.to.logout();
         return response;
       }
 

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
+import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
 import 'package:flutter_music_clean_getx/app/core/storage/token_storage.dart';
 import 'package:flutter_music_clean_getx/app/domain/entities/auth_tokens.dart';
 import 'package:flutter_music_clean_getx/app/domain/repositories/auth_repository.dart';
 import 'package:flutter_music_clean_getx/app/domain/usecases/login_usecase.dart';
 import 'package:flutter_music_clean_getx/app/features/auth/controllers/auth_controller.dart';
 import 'package:flutter_music_clean_getx/app/features/auth/presentation/login_page.dart';
+
+import 'fakes.dart';
 
 class FakeAuthRepository implements AuthRepository {
   @override
@@ -16,38 +19,11 @@ class FakeAuthRepository implements AuthRepository {
   }
 }
 
-class FakeTokenStorage implements TokenStorage {
-  String? _token;
-  String? _refreshToken;
-
-  @override
-  Future<String?> readToken() async => _token;
-
-  @override
-  Future<void> writeToken(String token) async {
-    _token = token;
-  }
-
-  @override
-  Future<String?> readRefreshToken() async => _refreshToken;
-
-  @override
-  Future<void> writeRefreshToken(String token) async {
-    _refreshToken = token;
-  }
-
-  @override
-  Future<void> clearToken() async {
-    _token = null;
-    _refreshToken = null;
-  }
-}
-
 class TestAuthController extends AuthController {
-  TestAuthController()
+  TestAuthController(TokenStorage tokenStorage)
       : super(
           loginUseCase: LoginUseCase(FakeAuthRepository()),
-          tokenStorage: FakeTokenStorage(),
+          tokenStorage: tokenStorage,
         );
 }
 
@@ -55,7 +31,12 @@ void main() {
   setUp(() {
     Get.reset();
     Get.testMode = true;
-    Get.put<AuthController>(TestAuthController());
+    
+    final tokenStorage = FakeTokenStorage();
+    Get.put<TokenStorage>(tokenStorage);
+    Get.put<AuthService>(AuthService(tokenStorage));
+    
+    Get.put<AuthController>(TestAuthController(tokenStorage));
   });
 
   testWidgets('LoginPage renders test Keys', (tester) async {
