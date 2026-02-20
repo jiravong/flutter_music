@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'app/core/bindings/initial_binding.dart';
+import 'app/core/config/app_config.dart';
 import 'app/core/translations/app_translations.dart';
 import 'app/core/services/analytics_service.dart';
 import 'app/core/services/connectivity_service.dart';
@@ -23,6 +24,14 @@ import 'firebase_options.dart';
 // We initialize GetStorage before running the app because we need to read
 // persisted JWT token to decide the first screen.
 Future<void> main() async {
+  if (!AppConfig.isInitialized) {
+    AppConfig.init(const AppConfig(
+      flavor: Flavor.dev,
+      appName: 'Music App (Dev)',
+      apiBaseUrl: 'http://localhost:8080',
+    ));
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
@@ -64,7 +73,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // GetMaterialApp enables GetX navigation and dependency bindings.
     return GetMaterialApp(
-      title: 'Music App',
+      title: AppConfig.instance.appName,
       translations: AppTranslations(),
       locale: const Locale('th', 'TH'),
       fallbackLocale: const Locale('en', 'US'),

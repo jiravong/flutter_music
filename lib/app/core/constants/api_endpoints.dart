@@ -1,3 +1,5 @@
+import '../config/app_config.dart';
+
 // Central place to keep API base URL and endpoint paths.
 //
 // Notes:
@@ -5,7 +7,7 @@
 //   instead of localhost.
 // - Paths here are relative and will be combined with baseUrl by ApiClient.
 class ApiEndpoints {
-  static const String baseUrl = 'http://localhost:8080';
+  static String get baseUrl => AppConfig.instance.apiBaseUrl;
 
   // Auth
   static const String login = '/api/v1/auth/login';
