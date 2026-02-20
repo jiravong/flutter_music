@@ -31,4 +31,19 @@ class AnalyticsService extends GetxService {
       },
     );
   }
+
+  Future<void> logCompleteMusic({
+    required int musicId,
+    required String title,
+    required String artist,
+  }) async {
+    await _analytics.logEvent(
+      name: 'complete_music',
+      parameters: {
+        'music_id': musicId,
+        'music_title': title,
+        'music_artist': artist,
+      },
+    );
+  }
 }

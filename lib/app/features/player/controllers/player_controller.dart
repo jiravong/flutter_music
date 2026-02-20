@@ -31,6 +31,13 @@ class PlayerController extends GetxController {
       if (state.processingState == ProcessingState.completed) {
         isPlaying.value = false;
         playingUrl.value = '';
+        if (currentMusic.value != null) {
+          AnalyticsService.to.logCompleteMusic(
+            musicId: currentMusic.value!.id,
+            title: currentMusic.value!.title,
+            artist: currentMusic.value!.artist,
+          );
+        }
       } else {
         isPlaying.value = state.playing;
       }
