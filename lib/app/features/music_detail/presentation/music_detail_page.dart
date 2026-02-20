@@ -26,14 +26,6 @@ class MusicDetailPage extends GetView<MusicDetailController> {
         );
       }
 
-      // State: Error
-      if (controller.errorMessage.value.isNotEmpty) {
-        return BaseScaffold(
-          appBar: CoreAppBar(title: 'Music Detail', showBackButton: true),
-          body: Center(child: Text(controller.errorMessage.value)),
-        );
-      }
-
       final music = controller.selectedMusic.value;
       if (music == null) {
         return BaseScaffold(

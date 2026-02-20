@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 
-import '../../../core/services/crashlytics_service.dart';
+import '../../../core/mixins/error_handler_mixin.dart';
 import '../../../domain/entities/music.dart';
 import '../../../domain/usecases/get_music_detail_usecase.dart';
 import '../../player/controllers/player_controller.dart';
 
-class MusicDetailController extends GetxController {
+class MusicDetailController extends GetxController with ErrorHandlerMixin {
   MusicDetailController({required this.getMusicDetailUseCase});
 
   final GetMusicDetailUseCase getMusicDetailUseCase;
@@ -52,8 +52,7 @@ class MusicDetailController extends GetxController {
       final result = await getMusicDetailUseCase(id);
       selectedMusic.value = result;
     } catch (e, stack) {
-      errorMessage.value = e.toString();
-      CrashlyticsService.to.recordError(e, stack, reason: 'fetchMusicDetail id=$id');
+      handleError(e, stack, reason: 'fetchMusicDetail id=$id');
     } finally {
       isLoading.value = false;
     }

@@ -15,33 +15,32 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<AuthTokens> login({required String email, required String password}) async {
-    // Login endpoint typically does not require Authorization header.
-    final response = await _client.post(
-      ApiEndpoints.login,
-      {
-        'email': email,
-        'password': password,
-      },
-    );
+    try {
+      // Login endpoint typically does not require Authorization header.
+      final response = await _client.post(
+        ApiEndpoints.login,
+        {
+          'email': email,
+          'password': password,
+        },
+      );
 
-    // GetConnect exposes isOk for 2xx status codes.
-    if (!response.isOk) {
-      final body = response.body;
-      if (body is Map<String, dynamic>) {
-        final message = body['error'] ?? body['message'] ?? body['msg'];
-        if (message is String && message.isNotEmpty) {
-          throw Exception(message);
-        }
+      // GetConnect exposes isOk for 2xx status codes.
+      if (!response.isOk) {
+        throw Exception(
+          _errorMessage(response.body, response.statusText) ?? 'Login failed',
+        );
       }
-      throw Exception(response.statusText ?? 'Login failed');
-    }
 
-    // Try to find token from a few common response shapes:
-    // - { access_token: "...", refresh_token: "..." }
-    // - { token: "...", refresh_token: "..." }
-    // - { data: { access_token/token: "...", refresh_token: "..." } }
-    final body = response.body;
-    if (body is Map<String, dynamic>) {
+      final body = response.body;
+      if (body is! Map<String, dynamic>) {
+        throw Exception('Invalid login response: expected JSON object');
+      }
+
+      // Try to find token from a few common response shapes:
+      // - { access_token: "...", refresh_token: "..." }
+      // - { token: "...", refresh_token: "..." }
+      // - { data: { access_token/token: "...", refresh_token: "..." } }
       final data = (body['data'] is Map<String, dynamic>)
           ? body['data'] as Map<String, dynamic>
           : body;
@@ -58,8 +57,20 @@ class AuthRepositoryImpl implements AuthRepository {
           refreshToken: refreshToken,
         );
       }
-    }
 
-    throw Exception('Token not found in response');
+      throw Exception('Token not found in response');
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      throw Exception('Unexpected error during login: $e');
+    }
+  }
+
+  String? _errorMessage(dynamic body, String? fallback) {
+    if (body is Map<String, dynamic>) {
+      final message = body['error'] ?? body['message'] ?? body['msg'];
+      if (message is String && message.isNotEmpty) return message;
+    }
+    return fallback;
   }
 }

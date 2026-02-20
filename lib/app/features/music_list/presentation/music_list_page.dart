@@ -66,11 +66,6 @@ class _MusicListPageState extends State<MusicListPage> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        // State: Error
-        if (controller.errorMessage.value.isNotEmpty) {
-          return Center(child: Text(controller.errorMessage.value));
-        }
-
         // State: Empty
         if (controller.musics.isEmpty) {
           return const Center(child: Text('No music found'));
