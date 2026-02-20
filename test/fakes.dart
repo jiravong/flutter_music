@@ -80,10 +80,12 @@ class FakePlayerController extends PlayerController {
   void onInit() {
     // intentionally skip AudioPlayer setup by not calling super.onInit()
     // ignore: invalid_use_of_protected_member
+    super.onInit();
   }
 
   @override
   void onClose() {
     // ignore: invalid_use_of_protected_member
+    super.onClose();
   }
 }
