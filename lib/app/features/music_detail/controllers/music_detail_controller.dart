@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../../core/services/crashlytics_service.dart';
 import '../../../domain/entities/music.dart';
 import '../../../domain/usecases/get_music_detail_usecase.dart';
 import '../../player/controllers/player_controller.dart';
@@ -50,8 +51,9 @@ class MusicDetailController extends GetxController {
 
       final result = await getMusicDetailUseCase(id);
       selectedMusic.value = result;
-    } catch (e) {
+    } catch (e, stack) {
       errorMessage.value = e.toString();
+      CrashlyticsService.to.recordError(e, stack, reason: 'fetchMusicDetail id=$id');
     } finally {
       isLoading.value = false;
     }

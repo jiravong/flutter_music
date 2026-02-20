@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../../core/services/crashlytics_service.dart';
 import '../../../domain/entities/music.dart';
 import '../../../domain/usecases/get_music_page_usecase.dart';
 import '../../player/controllers/player_controller.dart';
@@ -38,8 +39,9 @@ class MusicListController extends GetxController {
       final result = await getMusicPageUseCase(page: _currentPage, limit: _limit);
       musics.assignAll(result.items);
       _hasMore = result.hasMore;
-    } catch (e) {
+    } catch (e, stack) {
       errorMessage.value = e.toString();
+      CrashlyticsService.to.recordError(e, stack, reason: 'fetchMusicList');
     } finally {
       isLoading.value = false;
     }
@@ -54,9 +56,10 @@ class MusicListController extends GetxController {
       final result = await getMusicPageUseCase(page: _currentPage, limit: _limit);
       musics.addAll(result.items);
       _hasMore = result.hasMore;
-    } catch (e) {
+    } catch (e, stack) {
       _currentPage--;
       errorMessage.value = e.toString();
+      CrashlyticsService.to.recordError(e, stack, reason: 'loadMore');
     } finally {
       isLoadingMore.value = false;
     }

@@ -1,4 +1,5 @@
 import 'package:flutter_music_clean_getx/app/core/services/analytics_service.dart';
+import 'package:flutter_music_clean_getx/app/core/services/crashlytics_service.dart';
 import 'package:flutter_music_clean_getx/app/core/storage/token_storage.dart';
 import 'package:flutter_music_clean_getx/app/data/models/user_model.dart';
 import 'package:flutter_music_clean_getx/app/domain/usecases/user_usecase.dart';
@@ -27,8 +28,9 @@ class ProfileController extends GetxController {
     
     try {
       user.value = await userUsecase.getUser();
-    } catch (e) {
+    } catch (e, stack) {
       errorMessage.value = e.toString();
+      CrashlyticsService.to.recordError(e, stack, reason: 'getUser');
     } finally {
       isLoading.value = false;
     }

@@ -149,6 +149,74 @@ bash -c 'source ~/.nvm/nvm.sh && nvm use 20 && flutterfire configure \
 
 > **หมายเหตุ:** อย่า commit `google-services.json` และ `GoogleService-Info.plist` ลง git สาธารณะ
 
+## Firebase Crashlytics Setup
+
+Firebase Crashlytics ถูก integrate ไว้แล้วใน `CrashlyticsService` ต้องทำขั้นตอนเพิ่มเติมดังนี้:
+
+### เปิดใช้งานใน Firebase Console
+
+1. Firebase Console → เลือก project → Crashlytics
+2. กด **Enable Crashlytics**
+
+### Android
+
+Gradle plugin ถูก configure ไว้แล้วใน:
+- `android/build.gradle.kts` — classpath `firebase-crashlytics-gradle`
+- `android/app/build.gradle.kts` — plugin `com.google.firebase.crashlytics`
+
+ไม่ต้องทำอะไรเพิ่ม
+
+### iOS
+
+หลังจาก `flutterfire configure` แล้ว รัน pod install:
+
+```bash
+cd ios
+pod install
+cd ..
+```
+
+> **หมายเหตุ:** Crashlytics จะ **ไม่ collect crashes ใน debug mode** (`kDebugMode = true`) โดย default  
+> ต้อง build release เพื่อให้ crash reports ส่งขึ้น Firebase Console:
+> ```bash
+> flutter run --release
+> # หรือ
+> flutter build apk --release
+> ```
+
+## Firebase Remote Config Setup
+
+Firebase Remote Config ถูก integrate ไว้แล้วใน `RemoteConfigService` สามารถปรับค่าได้จาก Firebase Console โดยไม่ต้อง release app ใหม่
+
+### เปิดใช้งานใน Firebase Console
+
+1. Firebase Console → เลือก project → Remote Config
+2. กด **Create configuration**
+3. เพิ่ม parameters ตามตารางด้านล่าง แล้วกด **Publish changes**
+
+### Parameters ที่ใช้ในแอป
+
+| Parameter key | Type | Default | คำอธิบาย |
+|---|---|---|---|
+| `maintenance_mode` | Boolean | `false` | ปิดแอปชั่วคราวเพื่อ maintenance |
+| `minimum_app_version` | String | `1.0.0` | เวอร์ชันต่ำสุดที่รองรับ (force update) |
+| `music_page_size` | Number | `10` | จำนวนเพลงต่อหน้าใน pagination |
+
+### การใช้งานในโค้ด
+
+เรียกผ่าน `RemoteConfigService.to`:
+
+```dart
+// ตรวจสอบ maintenance mode
+if (RemoteConfigService.to.maintenanceMode) { ... }
+
+// ดึง page size
+final pageSize = RemoteConfigService.to.musicPageSize;
+```
+
+> **หมายเหตุ:** ใน debug mode จะ fetch config ทุกครั้งที่เปิดแอป (`minimumFetchInterval: Duration.zero`)  
+> ใน release mode จะ fetch ทุก 1 ชั่วโมง
+
 ## Running
 
 1. ทำขั้นตอน Firebase Setup ด้านบนให้เสร็จก่อน
