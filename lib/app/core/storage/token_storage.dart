@@ -1,43 +1,42 @@
-import 'package:get_storage/get_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-// Simple local persistence layer for auth token.
+// Secure persistence layer for auth token.
 //
 // Responsibility:
-// - Read/write/clear JWT access token from GetStorage.
+// - Read/write/clear JWT access token from FlutterSecureStorage.
 // - Keep storage access behind a small abstraction so the rest of the app
-//   (ApiClient/Controllers) doesn't depend on GetStorage API directly.
+//   (ApiClient/Controllers) doesn't depend on SecureStorage API directly.
 class TokenStorage {
-  // GetStorage instance is injected to make this class testable and reusable.
-  TokenStorage(this._box);
+  // FlutterSecureStorage instance is injected to make this class testable and reusable.
+  TokenStorage(this._storage);
 
-  final GetStorage _box;
+  final FlutterSecureStorage _storage;
 
   // Storage key used across the app.
-  // Must match the key that main.dart uses to decide the initial route.
   static const String _tokenKey = 'access_token';
   static const String _refreshTokenKey = 'refresh_token';
 
   // Returns saved token (if any). Null means not logged in.
-  String? readToken() {
-    return _box.read<String>(_tokenKey);
+  Future<String?> readToken() async {
+    return await _storage.read(key: _tokenKey);
   }
 
   // Persist token after successful login.
   Future<void> writeToken(String token) async {
-    await _box.write(_tokenKey, token);
+    await _storage.write(key: _tokenKey, value: token);
   }
 
-  String? readRefreshToken() {
-    return _box.read<String>(_refreshTokenKey);
+  Future<String?> readRefreshToken() async {
+    return await _storage.read(key: _refreshTokenKey);
   }
 
   Future<void> writeRefreshToken(String token) async {
-    await _box.write(_refreshTokenKey, token);
+    await _storage.write(key: _refreshTokenKey, value: token);
   }
 
   // Remove token on logout.
   Future<void> clearToken() async {
-    await _box.remove(_tokenKey);
-    await _box.remove(_refreshTokenKey);
+    await _storage.delete(key: _tokenKey);
+    await _storage.delete(key: _refreshTokenKey);
   }
 }

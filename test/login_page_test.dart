@@ -21,7 +21,7 @@ class FakeTokenStorage implements TokenStorage {
   String? _refreshToken;
 
   @override
-  String? readToken() => _token;
+  Future<String?> readToken() async => _token;
 
   @override
   Future<void> writeToken(String token) async {
@@ -29,7 +29,7 @@ class FakeTokenStorage implements TokenStorage {
   }
 
   @override
-  String? readRefreshToken() => _refreshToken;
+  Future<String?> readRefreshToken() async => _refreshToken;
 
   @override
   Future<void> writeRefreshToken(String token) async {

@@ -20,7 +20,7 @@ class ApiClient extends GetConnect {
     _refreshCompleter = Completer<String?>();
 
     try {
-      final refreshToken = _tokenStorage.readRefreshToken();
+      final refreshToken = await _tokenStorage.readRefreshToken();
       final response = await post(
         ApiEndpoints.refreshToken,
         {
@@ -96,9 +96,9 @@ class ApiClient extends GetConnect {
       return request;
     });
 
-    // 3. ส่วนของการจัดการ Token (Code เดิมของคุณ)
-    httpClient.addRequestModifier<dynamic>((request) {
-      final token = _tokenStorage.readToken();
+    // 3. ส่วนของการจัดการ Token
+    httpClient.addRequestModifier<dynamic>((request) async {
+      final token = await _tokenStorage.readToken();
       if (token != null && token.isNotEmpty) {
         request.headers['Authorization'] = 'Bearer $token';
       }

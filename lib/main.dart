@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -38,8 +39,8 @@ Future<void> main() async {
 
   // Read token directly for a quick initialRoute decision.
   // (TokenStorage abstraction is used elsewhere; here we keep it minimal.)
-  final box = GetStorage();
-  final token = box.read<String>('access_token');
+  const storage = FlutterSecureStorage();
+  final token = await storage.read(key: 'access_token');
   final initialRoute = (token != null && token.isNotEmpty) ? AppRoutes.landing : AppRoutes.login;
 
   runApp(MyApp(initialRoute: initialRoute));

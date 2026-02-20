@@ -1,3 +1,4 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -15,9 +16,12 @@ class InitialBinding extends Bindings {
     if (!Get.isRegistered<GetStorage>()) {
       Get.put<GetStorage>(GetStorage(), permanent: true);
     }
+    if (!Get.isRegistered<FlutterSecureStorage>()) {
+      Get.put<FlutterSecureStorage>(const FlutterSecureStorage(), permanent: true);
+    }
     if (!Get.isRegistered<TokenStorage>()) {
       Get.put<TokenStorage>(
-        TokenStorage(Get.find<GetStorage>()),
+        TokenStorage(Get.find<FlutterSecureStorage>()),
         permanent: true,
       );
     }
