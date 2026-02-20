@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_music_clean_getx/app/core/services/analytics_service.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../../../domain/entities/music.dart';
 
-class PlayerController extends GetxController {
+class PlayerController extends GetxController with WidgetsBindingObserver {
   final isPlaying = false.obs;
   final playingUrl = ''.obs;
   final errorMessage = ''.obs;
@@ -26,6 +27,9 @@ class PlayerController extends GetxController {
 
   @override
   void onInit() {
+    super.onInit();
+    WidgetsBinding.instance.addObserver(this);
+
     _player = AudioPlayer();
     _playerStateSub = _player.playerStateStream.listen((state) {
       if (state.processingState == ProcessingState.completed) {
@@ -42,7 +46,17 @@ class PlayerController extends GetxController {
         isPlaying.value = state.playing;
       }
     });
-    super.onInit();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Stop playing if app goes to background or is detached.
+    // Since we don't use audio_service for background play, we must stop it.
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+      if (_player.playing) {
+        stop();
+      }
+    }
   }
 
   Future<void> playMusic(Music music) async {
@@ -93,6 +107,7 @@ class PlayerController extends GetxController {
 
   @override
   void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
     _playerStateSub?.cancel();
     _player.dispose();
     super.onClose();
