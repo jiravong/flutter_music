@@ -9,6 +9,7 @@ import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../features/auth/controllers/auth_controller.dart';
 import '../../features/player/bindings/player_binding.dart';
+import '../services/auth_service.dart';
 
 class InitialBinding extends Bindings {
   @override
@@ -25,6 +26,12 @@ class InitialBinding extends Bindings {
         permanent: true,
       );
     }
+    
+    // Register AuthService synchronously
+    if (!Get.isRegistered<AuthService>()) {
+      Get.put<AuthService>(AuthService(Get.find<TokenStorage>()), permanent: true);
+    }
+
     if (!Get.isRegistered<ApiClient>()) {
       Get.put<ApiClient>(
         ApiClient(Get.find<TokenStorage>()),

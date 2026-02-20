@@ -11,6 +11,8 @@ import 'app/core/services/analytics_service.dart';
 import 'app/core/services/connectivity_service.dart';
 import 'app/core/services/crashlytics_service.dart';
 import 'app/core/services/remote_config_service.dart';
+import 'app/core/services/auth_service.dart';
+import 'app/core/storage/token_storage.dart';
 import 'app/routes/app_pages.dart';
 import 'app/routes/app_routes.dart';
 import 'firebase_options.dart';
@@ -41,7 +43,13 @@ Future<void> main() async {
   // (TokenStorage abstraction is used elsewhere; here we keep it minimal.)
   const storage = FlutterSecureStorage();
   final token = await storage.read(key: 'access_token');
-  final initialRoute = (token != null && token.isNotEmpty) ? AppRoutes.landing : AppRoutes.login;
+  final isLoggedIn = token != null && token.isNotEmpty;
+  final initialRoute = isLoggedIn ? AppRoutes.landing : AppRoutes.login;
+
+  // Initialize AuthService before runApp so middleware can use it synchronously
+  final tokenStorage = TokenStorage(storage);
+  final authService = Get.put<AuthService>(AuthService(tokenStorage), permanent: true);
+  authService.setLoggedIn(isLoggedIn);
 
   runApp(MyApp(initialRoute: initialRoute));
 }

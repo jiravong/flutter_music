@@ -6,6 +6,7 @@ import 'package:flutter_music_clean_getx/app/features/profile/bindings/profile_b
 import 'package:flutter_music_clean_getx/app/features/profile/presentation/profile_page.dart';
 import 'package:get/get.dart';
 
+import '../core/middleware/auth_middleware.dart';
 import '../features/auth/presentation/login_page.dart';
 import '../features/music_detail/bindings/music_detail_binding.dart';
 import '../features/music_list/bindings/music_binding.dart';
@@ -30,26 +31,31 @@ class AppPages {
       name: AppRoutes.landing,
       page: () => const LandingPage(),
       binding: LandingBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.home,
       page: () => const HomePage(),
       binding: HomeBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.music,
       page: () => const MusicListPage(),
       bindings: [PlayerBinding(), MusicBinding()],
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.musicDetail,
       page: () => const MusicDetailPage(),
       bindings: [PlayerBinding(), MusicDetailBinding()],
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: AppRoutes.profile,
       page: () => const ProfilePage(),
       binding: ProfileBinding(),
+      middlewares: [AuthMiddleware()],
     ),
   ];
 }
