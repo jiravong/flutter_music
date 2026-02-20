@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../services/connectivity_service.dart';
 import '../services/crashlytics_service.dart';
+import '../translations/app_strings.dart';
 
 abstract class ErrorRecorder {
   Future<void> recordError(
@@ -25,12 +26,12 @@ mixin ErrorHandlerMixin on GetxController {
 
     final isOffline = !connectivityService.isConnected.value;
     if (isOffline) {
-      showSnackbar('ไม่มีการเชื่อมต่อ', 'กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต');
+      showSnackbar(AppStrings.commonNoConnection.tr, clean);
       return;
     }
 
     errorRecorder.recordError(e, stack, reason: reason);
-    showSnackbar('เกิดข้อผิดพลาด', clean);
+    showSnackbar(AppStrings.commonError.tr, clean);
   }
 
   void showSnackbar(String title, String message) {

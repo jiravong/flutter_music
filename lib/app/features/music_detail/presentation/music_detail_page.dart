@@ -6,6 +6,7 @@ import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:get/get.dart';
 
+import '../../../core/translations/app_strings.dart';
 import '../controllers/music_detail_controller.dart';
 
 // Music detail screen.
@@ -21,7 +22,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
       // State: Loading
       if (controller.isLoading.value) {
         return BaseScaffold(
-          appBar: CoreAppBar(title: 'Music Detail', showBackButton: true),
+          appBar: CoreAppBar(title: AppStrings.musicDetailTitle.tr, showBackButton: true),
           body: const Center(child: CircularProgressIndicator()),
         );
       }
@@ -29,7 +30,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
       final music = controller.selectedMusic.value;
       if (music == null) {
         return BaseScaffold(
-          appBar: CoreAppBar(title: 'Music Detail', showBackButton: true),
+          appBar: CoreAppBar(title: AppStrings.musicDetailTitle.tr, showBackButton: true),
           body: const Center(child: Text('No detail')),
         );
       }
@@ -37,6 +38,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
       // State: Success
       return BaseScaffold(
         appBar: CoreAppBar(title: music.title, showBackButton: true),
+        // title uses music.title directly (dynamic data, not a translation key)
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -50,7 +52,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
               ),
               const SizedBox(height: 16),
               Text(
-                'นักร้อง: ${music.artist}',
+                AppStrings.musicDetailSinger.trParams({'name': music.artist}),
                 key: const ValueKey('musicDetail.artist'),
                 style: AppTextStyle.textSmRegular.copyWith(color: AppColors.textSecondary),
               ),
@@ -71,7 +73,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
                       onPressed: () => controller.playMusic(music),
                       child: Obx(() {
                         final isThisPlaying = controller.isPlayingUrl(music.mp3Url);
-                        return Text(isThisPlaying ? 'Pause' : 'Play');
+                        return Text(isThisPlaying ? AppStrings.musicDetailPause.tr : AppStrings.musicDetailPlay.tr);
                       }),
                     ),
                   ),
@@ -82,7 +84,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
                       return ElevatedButton(
                         key: const ValueKey('musicDetail.stopButton'),
                         onPressed: isThisPlaying ? controller.stop : null,
-                        child: const Text('Stop'),
+                        child: Text(AppStrings.musicDetailStop.tr),
                       );
                     }),
                   ),

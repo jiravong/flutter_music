@@ -4,6 +4,7 @@ import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:get/get.dart';
 
+import '../../../core/translations/app_strings.dart';
 import '../controllers/auth_controller.dart';
 
 // Basic login form.
@@ -37,13 +38,13 @@ class LoginPage extends GetView<AuthController> {
                 const Icon(Icons.music_note_rounded, size: 64, color: AppColors.primary),
                 const SizedBox(height: 12),
                 Text(
-                  'Welcome Back',
+                  AppStrings.authWelcomeBack.tr,
                   style: AppTextStyle.text2xlBold.copyWith(color: AppColors.textPrimary),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Sign in to continue',
+                  AppStrings.authSignInToContinue.tr,
                   style: AppTextStyle.textSmRegular.copyWith(color: AppColors.textSecondary),
                   textAlign: TextAlign.center,
                 ),
@@ -54,7 +55,7 @@ class LoginPage extends GetView<AuthController> {
                   style: AppTextStyle.textMdRegular.copyWith(color: AppColors.textPrimary),
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: AppStrings.authEmail.tr,
                     labelStyle: AppTextStyle.textSmRegular.copyWith(color: AppColors.textSecondary),
                     prefixIcon: const Icon(Icons.email_outlined, color: AppColors.textSecondary),
                     filled: true,
@@ -71,7 +72,7 @@ class LoginPage extends GetView<AuthController> {
                   obscureText: true,
                   style: AppTextStyle.textMdRegular.copyWith(color: AppColors.textPrimary),
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: AppStrings.authPassword.tr,
                     labelStyle: AppTextStyle.textSmRegular.copyWith(color: AppColors.textSecondary),
                     prefixIcon: const Icon(Icons.lock_outline, color: AppColors.textSecondary),
                     filled: true,
@@ -128,7 +129,7 @@ class LoginPage extends GetView<AuthController> {
                               width: 20,
                               child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white),
                             )
-                          : Text('Login', style: AppTextStyle.textMdBold.copyWith(color: AppColors.white)),
+                          : Text(AppStrings.authLogin.tr, style: AppTextStyle.textMdBold.copyWith(color: AppColors.white)),
                     ),
                   );
                 }),

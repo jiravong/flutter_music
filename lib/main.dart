@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'app/core/bindings/initial_binding.dart';
+import 'app/core/translations/app_translations.dart';
 import 'app/core/services/analytics_service.dart';
 import 'app/core/services/connectivity_service.dart';
 import 'app/core/services/crashlytics_service.dart';
@@ -64,6 +65,9 @@ class MyApp extends StatelessWidget {
     // GetMaterialApp enables GetX navigation and dependency bindings.
     return GetMaterialApp(
       title: 'Music App',
+      translations: AppTranslations(),
+      locale: const Locale('th', 'TH'),
+      fallbackLocale: const Locale('en', 'US'),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),

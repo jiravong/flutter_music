@@ -6,6 +6,7 @@ import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
 import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:get/get.dart';
 
+import '../../../core/translations/app_strings.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfilePage extends GetView<ProfileController> {
@@ -14,7 +15,7 @@ class ProfilePage extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: CoreAppBar(title: 'Profile', showBackButton: true),
+      appBar: CoreAppBar(title: AppStrings.profileTitle.tr, showBackButton: true),
       body: Obx(
         () => Container(
           padding: const EdgeInsets.all(16),
@@ -45,7 +46,7 @@ class ProfilePage extends GetView<ProfileController> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Settings',
+                AppStrings.profileSettings.tr,
                 style: AppTextStyle.textMdBold,
                 textAlign: TextAlign.center,
               ),
@@ -62,7 +63,7 @@ class ProfilePage extends GetView<ProfileController> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      'Logout',
+                      AppStrings.profileLogout.tr,
                       style: AppTextStyle.textMdRegular,
                       textAlign: TextAlign.center,
                     ),

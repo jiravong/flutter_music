@@ -6,6 +6,7 @@ import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../core/translations/app_strings.dart';
 import '../../../routes/app_routes.dart';
 import '../controllers/music_list_controller.dart';
 
@@ -68,7 +69,7 @@ class _MusicListPageState extends State<MusicListPage> {
 
         // State: Empty
         if (controller.musics.isEmpty) {
-          return Center(child: Text('No music found', style: AppTextStyle.textLgRegular));
+          return Center(child: Text(AppStrings.musicNoMusicFound.tr, style: AppTextStyle.textLgRegular));
         }
 
         // State: Success
