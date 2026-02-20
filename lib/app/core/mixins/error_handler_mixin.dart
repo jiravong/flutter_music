@@ -34,6 +34,7 @@ mixin ErrorHandlerMixin on GetxController {
   }
 
   void showSnackbar(String title, String message) {
+    if (Get.isSnackbarOpen) return;
     Get.snackbar(
       title,
       message,

@@ -34,21 +34,25 @@ class ConnectivityService extends GetxService {
     final connected = _hasConnection(results);
     if (!connected && isConnected.value) {
       isConnected.value = false;
-      Get.snackbar(
-        'ไม่มีการเชื่อมต่อ',
-        'กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 4),
-        isDismissible: false,
-      );
+      if (!Get.isSnackbarOpen) {
+        Get.snackbar(
+          'ไม่มีการเชื่อมต่อ',
+          'กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต',
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 4),
+          isDismissible: false,
+        );
+      }
     } else if (connected && !isConnected.value) {
       isConnected.value = true;
-      Get.snackbar(
-        'เชื่อมต่อแล้ว',
-        'การเชื่อมต่ออินเทอร์เน็ตกลับมาแล้ว',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 2),
-      );
+      if (!Get.isSnackbarOpen) {
+        Get.snackbar(
+          'เชื่อมต่อแล้ว',
+          'การเชื่อมต่ออินเทอร์เน็ตกลับมาแล้ว',
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+        );
+      }
     }
   }
 
