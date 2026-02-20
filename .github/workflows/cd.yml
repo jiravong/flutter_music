@@ -1,0 +1,96 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-android:
+    name: Build Android (${{ matrix.flavor }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: [dev, prod]
+        include:
+          - flavor: dev
+            entry: lib/main_dev.dart
+          - flavor: prod
+            entry: lib/main_prod.dart
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.x"
+          channel: stable
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: |
+          flutter build apk \
+            --flavor ${{ matrix.flavor }} \
+            --target ${{ matrix.entry }} \
+            --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.flavor }}
+          path: build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+
+  build-ios:
+    name: Build iOS (${{ matrix.flavor }})
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        flavor: [dev, prod]
+        include:
+          - flavor: dev
+            entry: lib/main_dev.dart
+          - flavor: prod
+            entry: lib/main_prod.dart
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.x"
+          channel: stable
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods
+        run: pod install
+        working-directory: ios
+
+      - name: Build iOS (no codesign)
+        run: |
+          flutter build ios \
+            --flavor ${{ matrix.flavor }} \
+            --target ${{ matrix.entry }} \
+            --release \
+            --no-codesign
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-${{ matrix.flavor }}
+          path: build/ios/iphoneos/Runner.app
