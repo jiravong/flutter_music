@@ -1,12 +1,11 @@
-import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
-import 'package:flutter/foundation.dart'; // อย่าลืม import อันนี้เพื่อใช้ kDebugMode
 import 'package:get/get.dart';
 import 'dart:async';
-import 'dart:developer' as developer; // ใช้สำหรับ log ยาวๆ ไม่ให้โดนตัด
 
 import '../../core/constants/api_endpoints.dart';
-import '../../core/services/connectivity_service.dart';
 import '../../core/storage/token_storage.dart';
+import 'interceptors/auth_interceptor.dart';
+import 'interceptors/error_interceptor.dart';
+import 'interceptors/logging_interceptor.dart';
 
 class ApiClient extends GetConnect {
   ApiClient(this._tokenStorage);
@@ -63,89 +62,20 @@ class ApiClient extends GetConnect {
     httpClient.baseUrl = ApiEndpoints.baseUrl;
     httpClient.timeout = const Duration(seconds: 60);
 
-    // 1. ส่วนของการ Log (ใส่ไว้บนสุดของ onInit เลยก็ได้ หรือก่อน Authenticator)
-    if (kDebugMode) {
-      // Log ขา Request
-      httpClient.addRequestModifier<dynamic>((request) {
-        developer.log('---------------- REQUEST ----------------', name: 'API_REQUEST');
-        developer.log('Method: ${request.method}', name: 'API_REQUEST');
-        developer.log('URL: ${request.url}', name: 'API_REQUEST');
-        developer.log('Headers: ${request.headers}', name: 'API_REQUEST');
-        // ถ้าอยากดู Body ขาส่งด้วย (ระวังถ้ายาวมาก)
-        // print('Body: ${request.bodyBytes}'); 
-        return request;
-      });
+    // 1. ส่วนของการ Log
+    httpClient.addRequestModifier<dynamic>((request) => LoggingInterceptor.requestInterceptor(request));
+    httpClient.addResponseModifier((request, response) => LoggingInterceptor.responseInterceptor(request, response));
 
-      // Log ขา Response
-      httpClient.addResponseModifier((request, response) {
-        developer.log('---------------- RESPONSE ----------------', name: 'API_RESPONSE');
-        developer.log('Status: ${response.statusCode}', name: 'API_RESPONSE');
-        developer.log('URL: ${request.url}', name: 'API_RESPONSE');
-        
-        // ใช้ developer.log เพื่อให้เห็น JSON เต็มๆ กรณี response ยาว
-        developer.log('Body: ${response.bodyString}', name: 'API_RESPONSE');
-        
-        return response;
-      });
-    }
+    // 2. ตรวจสอบ connectivity และแนบ Token
+    httpClient.addRequestModifier<dynamic>((request) => AuthInterceptor.requestInterceptor(request, _tokenStorage));
 
-    // 2. ตรวจสอบ connectivity ก่อนทุก request
-    httpClient.addRequestModifier<dynamic>((request) {
-      if (!ConnectivityService.to.isConnected.value) {
-        throw Exception('ไม่มีการเชื่อมต่ออินเทอร์เน็ต');
-      }
-      return request;
-    });
-
-    // 3. ส่วนของการจัดการ Token
-    httpClient.addRequestModifier<dynamic>((request) async {
-      final token = await _tokenStorage.readToken();
-      if (token != null && token.isNotEmpty) {
-        request.headers['Authorization'] = 'Bearer $token';
-      }
-      request.headers['Content-Type'] = 'application/json';
-      request.headers['Accept'] = 'application/json';
-      return request;
-    });
-
-    // 4. Interceptor สำหรับจับ 401 และ Refresh Token
-    httpClient.addResponseModifier((request, response) async {
-      // ถ้าไม่ใช่ 401 หรือเป็นคำขอ refresh token เอง หรือ login ให้ปล่อยผ่าน
-      if (response.statusCode != 401 ||
-          request.url.path.endsWith(ApiEndpoints.refreshToken) ||
-          request.url.path.endsWith(ApiEndpoints.login)) {
-        return response;
-      }
-
-      // ถ้าเป็น 401 แสดงว่า token หมดอายุ -> ทำการ refresh
-      final newToken = await _refreshAccessToken();
-
-      // ถ้า refresh ไม่สำเร็จ (เช่น refresh token หมดอายุ) -> logout
-      if (newToken == null || newToken.isEmpty) {
-        await AuthService.to.logout();
-        return response;
-      }
-
-      // ถ้า refresh สำเร็จ -> แนบ token ใหม่แล้วยิง request เดิมซ้ำ
-      final retryClient = GetConnect();
-      retryClient.httpClient.baseUrl = httpClient.baseUrl;
-
-      // Ensure new request has the updated token
-      final newHeaders = Map<String, String>.from(request.headers);
-      newHeaders['Authorization'] = 'Bearer $newToken';
-
-      // Re-issue the request using the retryClient
-      final bodyBytes = await request.bodyBytes.toList();
-      final bodyList = bodyBytes.expand((x) => x).toList();
-
-      final retryResponse = await retryClient.request(
-        request.url.toString(),
-        request.method,
-        headers: newHeaders,
-        body: bodyList.isEmpty ? null : bodyList,
+    // 3. Interceptor สำหรับจับ 401 และ Refresh Token
+    httpClient.addResponseModifier((request, response) {
+      return ErrorInterceptor.responseInterceptor(
+        request: request,
+        response: response,
+        onRefreshToken: _refreshAccessToken,
       );
-
-      return retryResponse;
     });
 
     super.onInit();
