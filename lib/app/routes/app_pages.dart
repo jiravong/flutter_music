@@ -1,9 +1,9 @@
-import 'package:flutter_music_clean_getx/app/features/home/binding/home_binding.dart';
-import 'package:flutter_music_clean_getx/app/features/home/presentation/home_page.dart';
-import 'package:flutter_music_clean_getx/app/features/landing/binding/landing_binding.dart';
-import 'package:flutter_music_clean_getx/app/features/landing/presentation/landing_page.dart';
-import 'package:flutter_music_clean_getx/app/features/profile/bindings/profile_binding.dart';
-import 'package:flutter_music_clean_getx/app/features/profile/presentation/profile_page.dart';
+import 'package:music_roop/app/features/home/binding/home_binding.dart';
+import 'package:music_roop/app/features/home/presentation/home_page.dart';
+import 'package:music_roop/app/features/landing/binding/landing_binding.dart';
+import 'package:music_roop/app/features/landing/presentation/landing_page.dart';
+import 'package:music_roop/app/features/profile/bindings/profile_binding.dart';
+import 'package:music_roop/app/features/profile/presentation/profile_page.dart';
 import 'package:get/get.dart';
 
 import '../core/middleware/auth_middleware.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
-import 'package:flutter_music_clean_getx/app/core/widgets/mini_player_bar.dart';
-import 'package:flutter_music_clean_getx/app/features/home/presentation/home_page.dart';
-import 'package:flutter_music_clean_getx/app/features/landing/controllers/landing_controller.dart';
-import 'package:flutter_music_clean_getx/app/features/music_list/presentation/music_list_page.dart';
-import 'package:flutter_music_clean_getx/app/features/profile/presentation/profile_page.dart';
+import 'package:music_roop/app/core/themes/app_colors.dart';
+import 'package:music_roop/app/core/widgets/mini_player_bar.dart';
+import 'package:music_roop/app/features/home/presentation/home_page.dart';
+import 'package:music_roop/app/features/landing/controllers/landing_controller.dart';
+import 'package:music_roop/app/features/music_list/presentation/music_list_page.dart';
+import 'package:music_roop/app/features/profile/presentation/profile_page.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 

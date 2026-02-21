@@ -1,6 +1,8 @@
-import 'package:flutter_music_clean_getx/app/core/services/analytics_service.dart';
-import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
-import 'package:flutter_music_clean_getx/app/routes/app_routes.dart';
+import 'package:music_roop/app/core/mixins/error_handler_mixin.dart';
+import 'package:music_roop/app/core/services/analytics_service.dart';
+import 'package:music_roop/app/core/services/auth_service.dart';
+import 'package:music_roop/app/core/services/crashlytics_service.dart';
+import 'package:music_roop/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +23,7 @@ class AuthController extends GetxController {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  ErrorRecorder get errorRecorder => CrashlyticsService.to;
 
   // Observable UI state.
   final isLoading = false.obs;
@@ -50,10 +53,11 @@ class AuthController extends GetxController {
 
       // Replace navigation stack so user can't go back to login.
       Get.offAllNamed(AppRoutes.landing);
-    } catch (e) {
+    } catch (e, stack) {
       // Keep error as text to show in UI.
       final msg = e.toString();
       errorMessage.value = msg.startsWith('Exception: ') ? msg.substring(11) : msg;
+      errorRecorder.recordError(e, stack, reason: 'login', fatal: true);
     } finally {
       isLoading.value = false;
     }

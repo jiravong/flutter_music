@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
-import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
-import 'package:flutter_music_clean_getx/app/core/services/connectivity_service.dart';
-import 'package:flutter_music_clean_getx/app/core/mixins/error_handler_mixin.dart';
-import 'package:flutter_music_clean_getx/app/domain/entities/music.dart';
-import 'package:flutter_music_clean_getx/app/domain/entities/music_page.dart';
-import 'package:flutter_music_clean_getx/app/domain/repositories/music_repository.dart';
-import 'package:flutter_music_clean_getx/app/domain/usecases/get_music_detail_usecase.dart';
-import 'package:flutter_music_clean_getx/app/domain/usecases/get_music_page_usecase.dart';
-import 'package:flutter_music_clean_getx/app/features/music_detail/controllers/music_detail_controller.dart';
-import 'package:flutter_music_clean_getx/app/features/music_detail/presentation/music_detail_page.dart';
-import 'package:flutter_music_clean_getx/app/features/music_list/controllers/music_list_controller.dart';
-import 'package:flutter_music_clean_getx/app/features/music_list/presentation/music_list_page.dart';
-import 'package:flutter_music_clean_getx/app/features/player/controllers/player_controller.dart';
+import 'package:music_roop/app/core/services/auth_service.dart';
+import 'package:music_roop/app/core/services/connectivity_service.dart';
+import 'package:music_roop/app/core/mixins/error_handler_mixin.dart';
+import 'package:music_roop/app/domain/entities/music.dart';
+import 'package:music_roop/app/domain/entities/music_page.dart';
+import 'package:music_roop/app/domain/repositories/music_repository.dart';
+import 'package:music_roop/app/domain/usecases/get_music_detail_usecase.dart';
+import 'package:music_roop/app/domain/usecases/get_music_page_usecase.dart';
+import 'package:music_roop/app/features/music_detail/controllers/music_detail_controller.dart';
+import 'package:music_roop/app/features/music_detail/presentation/music_detail_page.dart';
+import 'package:music_roop/app/features/music_list/controllers/music_list_controller.dart';
+import 'package:music_roop/app/features/music_list/presentation/music_list_page.dart';
+import 'package:music_roop/app/features/player/controllers/player_controller.dart';
 
 import 'fakes.dart';
 

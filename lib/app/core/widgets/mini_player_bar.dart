@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
-import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
-import 'package:flutter_music_clean_getx/app/core/widgets/cached_image.dart';
-import 'package:flutter_music_clean_getx/app/features/player/controllers/player_controller.dart';
-import 'package:flutter_music_clean_getx/app/routes/app_routes.dart';
+import 'package:music_roop/app/core/themes/app_colors.dart';
+import 'package:music_roop/app/core/themes/app_text_style.dart';
+import 'package:music_roop/app/core/widgets/cached_image.dart';
+import 'package:music_roop/app/features/player/controllers/player_controller.dart';
+import 'package:music_roop/app/routes/app_routes.dart';
 import 'package:get/get.dart';
 
 class MiniPlayerBar extends StatelessWidget {

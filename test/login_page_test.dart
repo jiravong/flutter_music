@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
-import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
-import 'package:flutter_music_clean_getx/app/core/storage/token_storage.dart';
-import 'package:flutter_music_clean_getx/app/features/auth/controllers/auth_controller.dart';
-import 'package:flutter_music_clean_getx/app/features/auth/presentation/login_page.dart';
+import 'package:music_roop/app/core/services/auth_service.dart';
+import 'package:music_roop/app/core/storage/token_storage.dart';
+import 'package:music_roop/app/features/auth/controllers/auth_controller.dart';
+import 'package:music_roop/app/features/auth/presentation/login_page.dart';
 
 import 'fakes.dart';
 

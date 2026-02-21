@@ -1,5 +1,5 @@
-import 'package:flutter_music_clean_getx/app/features/landing/controllers/landing_controller.dart';
-import 'package:flutter_music_clean_getx/app/features/profile/bindings/profile_binding.dart';
+import 'package:music_roop/app/features/landing/controllers/landing_controller.dart';
+import 'package:music_roop/app/features/profile/bindings/profile_binding.dart';
 import 'package:get/get.dart';
 
 import '../../home/binding/home_binding.dart';

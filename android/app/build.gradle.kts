@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.flutter_music_clean_getx"
+    namespace = "com.example.music.roop"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -22,7 +22,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.flutter_music_clean_getx"
+        applicationId = "com.example.music.roop"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

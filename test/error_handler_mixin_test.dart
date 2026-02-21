@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
-import 'package:flutter_music_clean_getx/app/core/mixins/error_handler_mixin.dart';
-import 'package:flutter_music_clean_getx/app/core/services/connectivity_service.dart';
+import 'package:music_roop/app/core/mixins/error_handler_mixin.dart';
+import 'package:music_roop/app/core/services/connectivity_service.dart';
 
 // ── Fakes ────────────────────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
+import 'package:music_roop/app/core/themes/app_colors.dart';
 
 class AppTextStyle {
   AppTextStyle._();

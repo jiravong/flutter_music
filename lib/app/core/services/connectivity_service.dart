@@ -34,7 +34,7 @@ class ConnectivityService extends GetxService {
     final connected = _hasConnection(results);
     if (!connected && isConnected.value) {
       isConnected.value = false;
-      if (!Get.isSnackbarOpen) {
+      if (!Get.isSnackbarOpen && Get.overlayContext != null) {
         Get.snackbar(
           'ไม่มีการเชื่อมต่อ',
           'กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต',
@@ -45,7 +45,7 @@ class ConnectivityService extends GetxService {
       }
     } else if (connected && !isConnected.value) {
       isConnected.value = true;
-      if (!Get.isSnackbarOpen) {
+      if (!Get.isSnackbarOpen && Get.overlayContext != null) {
         Get.snackbar(
           'เชื่อมต่อแล้ว',
           'การเชื่อมต่ออินเทอร์เน็ตกลับมาแล้ว',

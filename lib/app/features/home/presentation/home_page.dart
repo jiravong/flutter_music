@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_music_clean_getx/app/core/themes/app_colors.dart';
-import 'package:flutter_music_clean_getx/app/core/themes/app_text_style.dart';
-import 'package:flutter_music_clean_getx/app/core/widgets/base_layout.dart';
+import 'package:music_roop/app/core/themes/app_colors.dart';
+import 'package:music_roop/app/core/themes/app_text_style.dart';
+import 'package:music_roop/app/core/widgets/base_layout.dart';
 import 'package:get/get.dart';
 
 import '../../../core/translations/app_strings.dart';

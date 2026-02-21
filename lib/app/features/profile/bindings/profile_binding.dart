@@ -1,4 +1,4 @@
-import 'package:flutter_music_clean_getx/app/data/repositories/user_repository_impl.dart';
+import 'package:music_roop/app/data/repositories/user_repository_impl.dart';
 import 'package:get/get.dart';
 
 import '../../../domain/repositories/user_repository.dart';

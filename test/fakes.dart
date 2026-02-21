@@ -1,11 +1,11 @@
-import 'package:flutter_music_clean_getx/app/core/mixins/error_handler_mixin.dart';
-import 'package:flutter_music_clean_getx/app/core/storage/token_storage.dart';
-import 'package:flutter_music_clean_getx/app/domain/entities/auth_tokens.dart';
-import 'package:flutter_music_clean_getx/app/domain/entities/music.dart';
-import 'package:flutter_music_clean_getx/app/domain/repositories/auth_repository.dart';
-import 'package:flutter_music_clean_getx/app/domain/usecases/login_usecase.dart';
-import 'package:flutter_music_clean_getx/app/features/auth/controllers/auth_controller.dart';
-import 'package:flutter_music_clean_getx/app/features/player/controllers/player_controller.dart';
+import 'package:music_roop/app/core/mixins/error_handler_mixin.dart';
+import 'package:music_roop/app/core/storage/token_storage.dart';
+import 'package:music_roop/app/domain/entities/auth_tokens.dart';
+import 'package:music_roop/app/domain/entities/music.dart';
+import 'package:music_roop/app/domain/repositories/auth_repository.dart';
+import 'package:music_roop/app/domain/usecases/login_usecase.dart';
+import 'package:music_roop/app/features/auth/controllers/auth_controller.dart';
+import 'package:music_roop/app/features/player/controllers/player_controller.dart';
 
 class FakeTokenStorage implements TokenStorage {
   String? _token;

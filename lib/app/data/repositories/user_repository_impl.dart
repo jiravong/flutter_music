@@ -1,7 +1,7 @@
-import 'package:flutter_music_clean_getx/app/core/constants/api_endpoints.dart';
-import 'package:flutter_music_clean_getx/app/data/models/user_model.dart';
-import 'package:flutter_music_clean_getx/app/data/providers/api_client.dart';
-import 'package:flutter_music_clean_getx/app/domain/repositories/user_repository.dart';
+import 'package:music_roop/app/core/constants/api_endpoints.dart';
+import 'package:music_roop/app/data/models/user_model.dart';
+import 'package:music_roop/app/data/providers/api_client.dart';
+import 'package:music_roop/app/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this._client);

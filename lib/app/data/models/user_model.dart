@@ -1,4 +1,4 @@
-import 'package:flutter_music_clean_getx/app/domain/entities/user.dart';
+import 'package:music_roop/app/domain/entities/user.dart';
 
 class UserModel extends User {
   const UserModel({

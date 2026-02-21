@@ -1,4 +1,4 @@
-import 'package:flutter_music_clean_getx/app/features/home/controllers/home_controller.dart';
+import 'package:music_roop/app/features/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 import '../../music_list/bindings/music_binding.dart';

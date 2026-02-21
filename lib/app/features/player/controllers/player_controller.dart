@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_music_clean_getx/app/core/services/analytics_service.dart';
+import 'package:music_roop/app/core/services/analytics_service.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 

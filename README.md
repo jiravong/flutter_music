@@ -1,4 +1,4 @@
-# flutter_music_clean_getx
+# music_roop
 
 Flutter sample app using **GetX** + a simple **Clean Architecture** split (core/data/domain) and **feature modules** for presentation.
 
@@ -102,7 +102,7 @@ Firebase Analytics ถูก integrate ไว้แล้ว แต่ต้อ�
 
 1. ไปที่ [Firebase Console](https://console.firebase.google.com/) → เลือก project
 2. Project Settings → Add app → Android
-3. ใส่ package name: `com.example.flutter_music_clean_getx`
+3. ใส่ package name: `com.example.music.roop`
 4. Download `google-services.json` → วางที่ `android/app/google-services.json`
 
 ### iOS (optional)
@@ -134,14 +134,14 @@ firebase login
 bash -c 'source ~/.nvm/nvm.sh && nvm use 20 && flutterfire configure \
   --project=<your-firebase-project-id> \
   --platforms=android \
-  --android-package-name=com.example.flutter_music_clean_getx \
+  --android-package-name=com.example.music.roop \
   --yes'
 
 # Android + iOS
 bash -c 'source ~/.nvm/nvm.sh && nvm use 20 && flutterfire configure \
   --project=<your-firebase-project-id> \
   --platforms=android,ios \
-  --android-package-name=com.example.flutter_music_clean_getx \
+  --android-package-name=com.example.music.roop \
   --ios-bundle-id=com.example.flutterMusicCleanGetx \
   --yes'
 ```

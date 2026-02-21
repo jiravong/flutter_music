@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:flutter_music_clean_getx/app/core/constants/api_endpoints.dart';
-import 'package:flutter_music_clean_getx/app/core/services/auth_service.dart';
+import 'package:music_roop/app/core/constants/api_endpoints.dart';
+import 'package:music_roop/app/core/services/auth_service.dart';
 
 class ErrorInterceptor {
   static Future<Response> responseInterceptor({

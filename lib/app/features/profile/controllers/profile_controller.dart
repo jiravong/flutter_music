@@ -1,9 +1,9 @@
-import 'package:flutter_music_clean_getx/app/core/mixins/error_handler_mixin.dart';
-import 'package:flutter_music_clean_getx/app/core/services/analytics_service.dart';
-import 'package:flutter_music_clean_getx/app/core/storage/token_storage.dart';
-import 'package:flutter_music_clean_getx/app/data/models/user_model.dart';
-import 'package:flutter_music_clean_getx/app/domain/usecases/user_usecase.dart';
-import 'package:flutter_music_clean_getx/app/routes/app_routes.dart';
+import 'package:music_roop/app/core/mixins/error_handler_mixin.dart';
+import 'package:music_roop/app/core/services/analytics_service.dart';
+import 'package:music_roop/app/core/storage/token_storage.dart';
+import 'package:music_roop/app/data/models/user_model.dart';
+import 'package:music_roop/app/domain/usecases/user_usecase.dart';
+import 'package:music_roop/app/routes/app_routes.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController with ErrorHandlerMixin {

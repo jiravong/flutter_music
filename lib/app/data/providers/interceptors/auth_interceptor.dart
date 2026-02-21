@@ -1,6 +1,6 @@
 import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:flutter_music_clean_getx/app/core/services/connectivity_service.dart';
-import 'package:flutter_music_clean_getx/app/core/storage/token_storage.dart';
+import 'package:music_roop/app/core/services/connectivity_service.dart';
+import 'package:music_roop/app/core/storage/token_storage.dart';
 
 class AuthInterceptor {
   static Future<Request> requestInterceptor(Request request, TokenStorage tokenStorage) async {
