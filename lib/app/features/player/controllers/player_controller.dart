@@ -50,11 +50,12 @@ class PlayerController extends GetxController with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // Stop playing if app goes to background or is detached.
-    // Since we don't use audio_service for background play, we must stop it.
+    // Pause playing if app goes to background or is detached.
+    // Calling stop() during lifecycle changes can cause platform channel deadlocks on some devices.
     if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
       if (_player.playing) {
-        stop();
+        _player.pause();
+        isPlaying.value = false;
       }
     }
   }
