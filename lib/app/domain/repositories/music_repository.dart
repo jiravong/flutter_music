@@ -12,6 +12,9 @@ abstract class MusicRepository {
   // Fetch a paginated page of music tracks.
   Future<Result<MusicPage>> getPage({int page = 1, int limit = 10});
 
+  // Fetch a paginated page of music tracks from cache.
+  Result<MusicPage>? getCachedPage({int page = 1, int limit = 10});
+
   // Fetch a single track by id.
   Future<Result<Music>> getById(int id);
 }

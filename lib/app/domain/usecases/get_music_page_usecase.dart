@@ -11,4 +11,8 @@ class GetMusicPageUseCase {
   Future<Result<MusicPage>> call({int page = 1, int limit = 10}) {
     return _repo.getPage(page: page, limit: limit);
   }
+
+  Result<MusicPage>? cached({int page = 1, int limit = 10}) {
+    return _repo.getCachedPage(page: page, limit: limit);
+  }
 }

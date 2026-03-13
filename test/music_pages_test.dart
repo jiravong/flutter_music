@@ -38,6 +38,11 @@ class FakeMusicRepository implements MusicRepository {
   }
 
   @override
+  Result<MusicPage>? getCachedPage({int page = 1, int limit = 10}) {
+    return Result.success(MusicPage(items: items, page: page, limit: limit, total: items.length));
+  }
+
+  @override
   Future<Result<Music>> getById(int id) async => Result.success(items.firstWhere((e) => e.id == id));
 }
 

@@ -1,3 +1,5 @@
+import 'package:get_storage/get_storage.dart';
+
 import '../../core/constants/api_endpoints.dart';
 import '../../core/network/result.dart';
 import '../../domain/entities/music.dart';
@@ -15,6 +17,7 @@ class MusicRepositoryImpl implements MusicRepository {
   MusicRepositoryImpl(this._client);
 
   final ApiClient _client;
+  final GetStorage _storage = GetStorage();
 
   @override
   Future<Result<List<Music>>> getAll() async {
@@ -62,6 +65,34 @@ class MusicRepositoryImpl implements MusicRepository {
   }
 
   @override
+  Result<MusicPage>? getCachedPage({int page = 1, int limit = 10}) {
+    final body = _storage.read('music_page_${page}_$limit');
+    if (body == null || body is! Map<String, dynamic>) return null;
+
+    try {
+      final list = body['data'] is List ? body['data'] as List : <dynamic>[];
+      final pagination = body['pagination'] is Map<String, dynamic>
+          ? body['pagination'] as Map<String, dynamic>
+          : <String, dynamic>{};
+
+      final items = list
+          .whereType<Map>()
+          .map((e) => MusicModel.fromJson(e.cast<String, dynamic>()))
+          .toList(growable: false);
+
+      final musicPage = MusicPage(
+        items: items,
+        page: (pagination['page'] as num?)?.toInt() ?? page,
+        limit: (pagination['limit'] as num?)?.toInt() ?? limit,
+        total: (pagination['total'] as num?)?.toInt() ?? items.length,
+      );
+      return Result.success(musicPage);
+    } catch (e, stack) {
+      return Result.failure(Exception('Cache parse error: $e'), stack);
+    }
+  }
+
+  @override
   Future<Result<MusicPage>> getPage({int page = 1, int limit = 10}) async {
     try {
       final response = await _client.get(
@@ -83,6 +114,9 @@ class MusicRepositoryImpl implements MusicRepository {
           Exception('Invalid response: expected JSON object'),
         );
       }
+
+      // Save valid response to cache
+      _storage.write('music_page_${page}_$limit', body);
 
       final list = body['data'] is List ? body['data'] as List : <dynamic>[];
       final pagination =

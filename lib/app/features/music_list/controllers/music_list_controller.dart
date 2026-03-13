@@ -31,11 +31,25 @@ class MusicListController extends GetxController with ErrorHandlerMixin {
   bool isPlayingUrl(String url) => _player.isPlayingUrl(url);
 
   Future<void> fetchMusicList() async {
-    isLoading.value = true;
-    errorMessage.value = '';
     _currentPage = 1;
-    _hasMore = true;
 
+    // 1. Load from cache immediately
+    final cachedResult = getMusicPageUseCase.cached(page: _currentPage, limit: _limit);
+    if (cachedResult != null) {
+      cachedResult.when(
+        success: (pageData) {
+          musics.assignAll(pageData.items);
+          _hasMore = pageData.hasMore;
+        },
+        failure: (e, stack) {}, // Ignore cache read failures silently
+      );
+    } else {
+      isLoading.value = true;
+    }
+
+    errorMessage.value = '';
+
+    // 2. Fetch fresh data from network in background
     final result = await getMusicPageUseCase(page: _currentPage, limit: _limit);
     result.when(
       success: (pageData) {
