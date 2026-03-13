@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "86806745433",
+    "project_id": "music-roop",
+    "storage_bucket": "music-roop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:86806745433:android:8582d8b519f3eda77d7c48",
+        "android_client_info": {
+          "package_name": "com.example.music.roop.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANtLzekcq9PWo6YbNKVYe5lPMwq4lAmfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

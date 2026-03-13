@@ -17,7 +17,8 @@ import 'app/core/services/auth_service.dart';
 import 'app/core/storage/token_storage.dart';
 import 'app/routes/app_pages.dart';
 import 'app/routes/app_routes.dart';
-import 'firebase_options.dart';
+import 'firebase_options_dev.dart';
+import 'firebase_options_prod.dart';
 
 // App entry point.
 //
@@ -33,7 +34,7 @@ Future<void> main() async {
   }
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: _firebaseOptions());
   await GetStorage.init();
 
   final crashlytics = Get.put<CrashlyticsService>(CrashlyticsService(), permanent: true);
@@ -62,6 +63,16 @@ Future<void> main() async {
   authService.setLoggedIn(isLoggedIn);
 
   runApp(MyApp(initialRoute: initialRoute));
+}
+
+/// Returns [FirebaseOptions] matching the current [AppConfig.flavor].
+FirebaseOptions _firebaseOptions() {
+  switch (AppConfig.instance.flavor) {
+    case Flavor.dev:
+      return DevFirebaseOptions.currentPlatform;
+    case Flavor.prod:
+      return ProdFirebaseOptions.currentPlatform;
+  }
 }
 
 class MyApp extends StatelessWidget {
