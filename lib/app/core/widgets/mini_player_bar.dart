@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_roop/app/core/themes/app_colors.dart';
 import 'package:music_roop/app/core/themes/app_text_style.dart';
 import 'package:music_roop/app/core/widgets/cached_image.dart';
 import 'package:music_roop/app/features/player/controllers/player_controller.dart';
@@ -22,7 +21,7 @@ class MiniPlayerBar extends StatelessWidget {
           Get.toNamed(AppRoutes.musicDetail.replaceFirst(':id', '${music.id}'), parameters: {'id': '${music.id}'});
         },
         child: Container(
-          color: AppColors.backgroundDark,
+          color: context.theme.colorScheme.surface,
           child: SizedBox(
             height: 56,
             child: Padding(
@@ -52,15 +51,17 @@ class MiniPlayerBar extends StatelessWidget {
                           music.artist,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTextStyle.textXsRegular.copyWith(color: AppColors.textSecondary),
+                          style: AppTextStyle.textXsRegular.copyWith(
+                            color: context.theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                          ),
                         ),
                       ],
                     ),
                   ),
                   Obx(() {
                     final isThisPlaying = controller.isPlayingMusic(music);
-                    final activeColor = AppColors.white;
-                    final inactiveColor = AppColors.primary;
+                    final activeColor = context.theme.colorScheme.onSurface;
+                    final inactiveColor = context.theme.colorScheme.primary;
                     return IconButton(
                       icon: Icon(
                         isThisPlaying ? Icons.pause : Icons.play_arrow,

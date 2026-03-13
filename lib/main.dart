@@ -14,6 +14,7 @@ import 'app/core/services/analytics_service.dart';
 import 'app/core/services/connectivity_service.dart';
 import 'app/core/services/crashlytics_service.dart';
 import 'app/core/services/remote_config_service.dart';
+import 'app/core/themes/app_theme.dart';
 import 'app/core/services/auth_service.dart';
 import 'app/core/storage/token_storage.dart';
 import 'app/routes/app_pages.dart';
@@ -101,9 +102,10 @@ class MyApp extends StatelessWidget {
       translations: AppTranslations(),
       locale: const Locale('th', 'TH'),
       fallbackLocale: const Locale('en', 'US'),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppTheme.darkTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system, // Switch automatically
+      debugShowCheckedModeBanner: false,
       initialBinding: InitialBinding(),
       initialRoute: initialRoute,
       navigatorObservers: [AnalyticsService.to.observer],

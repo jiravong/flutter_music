@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_roop/app/core/themes/app_colors.dart';
 import 'package:music_roop/app/core/themes/app_text_style.dart';
 import 'package:music_roop/app/core/widgets/base_layout.dart';
 import 'package:music_roop/app/core/widgets/cached_image.dart';
@@ -116,7 +115,7 @@ class _MusicListPageState extends State<MusicListPage> {
                         Text(
                           music.artist,
                           style: AppTextStyle.textXsRegular.copyWith(
-                            color: AppColors.textSecondary,
+                            color: context.theme.colorScheme.onSurface.withValues(alpha:0.6),
                           ),
                         ),
                       ],
@@ -127,8 +126,8 @@ class _MusicListPageState extends State<MusicListPage> {
                   key: ValueKey('musicList.playButton.${music.id}'),
                   icon: Obx(() {
                     final isThisPlaying = controller.isPlayingUrl(music.mp3Url);
-                    final activeColor = AppColors.white;
-                    final inactiveColor = AppColors.primary;
+                    final activeColor = context.theme.colorScheme.onSurface;
+                    final inactiveColor = context.theme.colorScheme.primary;
                     return Icon(isThisPlaying ? Icons.pause : Icons.play_arrow, color: isThisPlaying ? activeColor : inactiveColor);
                   }),
                   onPressed: () => controller.playMusic(music),

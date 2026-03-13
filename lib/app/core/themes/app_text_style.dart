@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:music_roop/app/core/themes/app_colors.dart';
 
 class AppTextStyle {
   AppTextStyle._();
 
   static const _baseStyle = TextStyle(
     fontFamily: 'NotoSansThai',
-    color: AppColors.textPrimary, // ใส่สี default ไว้ที่นี่
   );
 
   static TextStyle _createStyle(double fontSize, double height, FontWeight weight) {
@@ -43,10 +41,5 @@ class AppTextStyle {
   // ... (ใส่ตัวอื่นๆ ตามเดิมที่คุณมี)
 }
 
-// 🔥 เพิ่ม Extension เพื่อให้เปลี่ยนสีได้รวดเร็ว
-extension TextStyleHelpers on TextStyle {
-  TextStyle get primary => copyWith(color: AppColors.primary);
-  TextStyle get secondary => copyWith(color: AppColors.textSecondary);
-  TextStyle get white => copyWith(color: Colors.white);
-  TextStyle get error => copyWith(color: AppColors.error);
-}
+// 🔥 Extension was removed as it forced static references to AppColors.
+// Use Theme.of(context).colorScheme instead.

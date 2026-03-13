@@ -1,6 +1,6 @@
 // lib/app/core/widgets/app_bar/core_app_bar.dart
 import 'package:flutter/material.dart';
-import 'package:music_roop/app/core/themes/app_colors.dart';
+import 'package:get/get.dart';
 import 'package:music_roop/app/core/themes/app_text_style.dart';
 
 class CoreAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -23,7 +23,7 @@ class CoreAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: title != null 
-          ? Text(title!, style: AppTextStyle.textLgBold.copyWith(color: AppColors.textPrimary)) 
+          ? Text(title!, style: AppTextStyle.textLgBold.copyWith(color: context.theme.colorScheme.onSurface)) 
           : null,
       centerTitle: centerTitle,
       backgroundColor: Colors.transparent, // ทำให้โปร่งใสเพื่อโชว์สีพื้นหลังของ Scaffold
@@ -40,7 +40,7 @@ class CoreAppBar extends StatelessWidget implements PreferredSizeWidget {
     // ถ้าสั่งให้โชว์ปุ่มย้อนกลับ และหน้าก่อนหน้านี้มีอยู่จริง
     if (showBackButton && Navigator.canPop(context)) {
       return IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.primary, size: 20),
+        icon: Icon(Icons.arrow_back_ios_new, color: context.theme.colorScheme.primary, size: 20),
         onPressed: () => Navigator.of(context).pop(),
       );
     }

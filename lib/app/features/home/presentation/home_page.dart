@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_roop/app/core/themes/app_colors.dart';
 import 'package:music_roop/app/core/themes/app_text_style.dart';
 import 'package:music_roop/app/core/widgets/base_layout.dart';
 import 'package:get/get.dart';
@@ -27,7 +26,7 @@ class HomePage extends GetView<HomeController> {
             Text(AppStrings.homeTitle.tr, style: AppTextStyle.textLgBold),
           ],
         ),
-        backgroundColor: AppColors.transparent,
+        backgroundColor: Colors.transparent,
       ),
       // แสดงผลหน้าตาม Index ที่เลือก
       body: Center(child: Text(AppStrings.homeTitle.tr, style: AppTextStyle.textLgRegular)),

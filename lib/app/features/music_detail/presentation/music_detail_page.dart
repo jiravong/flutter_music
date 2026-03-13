@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_roop/app/core/themes/app_colors.dart';
 import 'package:music_roop/app/core/themes/app_text_style.dart';
 import 'package:music_roop/app/core/widgets/appbar/appbar.dart';
 import 'package:music_roop/app/core/widgets/base_layout.dart';
@@ -54,7 +53,7 @@ class MusicDetailPage extends GetView<MusicDetailController> {
               Text(
                 AppStrings.musicDetailSinger.trParams({'name': music.artist}),
                 key: const ValueKey('musicDetail.artist'),
-                style: AppTextStyle.textSmRegular.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyle.textSmRegular.copyWith(color: context.theme.colorScheme.onSurface.withValues(alpha: 0.6)),
               ),
               const SizedBox(height: 16),
               Expanded(

@@ -1,5 +1,3 @@
-// lib/app/core/widgets/dialogs/app_dialogs.dart
-import 'package:music_roop/app/core/themes/app_colors.dart';
 import 'package:music_roop/app/core/themes/app_text_style.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +12,9 @@ class AppDialogs {
     return Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        decoration: BoxDecoration(
+          color: Get.theme.colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -36,12 +34,12 @@ class AppDialogs {
                 const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+                    style: ElevatedButton.styleFrom(backgroundColor: Get.theme.colorScheme.primary),
                     onPressed: () {
                       Get.back(); // ปิด Modal
                       onConfirm(); // ทำคำสั่งที่ส่งมา
                     },
-                    child: Text('ตกลง', style: AppTextStyle.textMdRegular.copyWith(color: Colors.white)),
+                    child: Text('ตกลง', style: AppTextStyle.textMdRegular.copyWith(color: Get.theme.colorScheme.onPrimary)),
                   ),
                 ),
               ],

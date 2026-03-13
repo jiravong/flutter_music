@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_roop/app/core/themes/app_colors.dart';
 import 'package:music_roop/app/core/themes/app_text_style.dart';
 import 'package:music_roop/app/core/widgets/appbar/appbar.dart';
 import 'package:music_roop/app/core/widgets/base_layout.dart';
@@ -61,9 +60,9 @@ class ProfilePage extends GetView<ProfileController> {
                         Get.bottomSheet(
                           Container(
                             padding: const EdgeInsets.only(top: 8, bottom: 16),
-                            decoration: const BoxDecoration(
-                              color: AppColors.background,
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                            decoration: BoxDecoration(
+                              color: context.theme.scaffoldBackgroundColor,
+                              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                             ),
                             child: const SafeArea(
                               child: _LanguageSwitcher(),
@@ -78,7 +77,7 @@ class ProfilePage extends GetView<ProfileController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(AppStrings.profileLanguage.tr, style: AppTextStyle.textMdRegular),
-                            const Icon(Icons.language, color: AppColors.primary),
+                            Icon(Icons.language, color: context.theme.colorScheme.primary),
                           ],
                         ),
                       ),
@@ -96,7 +95,7 @@ class ProfilePage extends GetView<ProfileController> {
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.error,
+                            color: context.theme.colorScheme.error,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -181,9 +180,9 @@ class _LanguageOption extends StatelessWidget {
           children: [
             Text(label, style: AppTextStyle.textMdRegular),
             if (isSelected)
-              const Icon(
+              Icon(
                 Icons.check_rounded,
-                color: AppColors.primary,
+                color: context.theme.colorScheme.primary,
                 size: 20,
               ),
           ],
