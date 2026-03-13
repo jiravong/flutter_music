@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -26,22 +27,31 @@ import 'firebase_options_prod.dart';
 // persisted JWT token to decide the first screen.
 Future<void> main() async {
   if (!AppConfig.isInitialized) {
-    AppConfig.init(const AppConfig(
-      flavor: Flavor.dev,
-      appName: 'Music App (Dev)',
-      apiBaseUrl: 'http://localhost:8080',
-    ));
+    AppConfig.init(
+      const AppConfig(
+        flavor: Flavor.dev,
+        appName: 'Music App (Dev)',
+        apiBaseUrl: 'http://localhost:8080',
+      ),
+    );
   }
 
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: _firebaseOptions());
   await GetStorage.init();
 
-  final crashlytics = Get.put<CrashlyticsService>(CrashlyticsService(), permanent: true);
+  final crashlytics = Get.put<CrashlyticsService>(
+    CrashlyticsService(),
+    permanent: true,
+  );
   await crashlytics.init();
   Get.put<AnalyticsService>(AnalyticsService(), permanent: true);
 
-  final remoteConfig = Get.put<RemoteConfigService>(RemoteConfigService(), permanent: true);
+  final remoteConfig = Get.put<RemoteConfigService>(
+    RemoteConfigService(),
+    permanent: true,
+  );
   await remoteConfig.init();
   Get.put<ConnectivityService>(ConnectivityService(), permanent: true);
 
@@ -59,7 +69,10 @@ Future<void> main() async {
 
   // Initialize AuthService before runApp so middleware can use it synchronously
   final tokenStorage = TokenStorage(storage);
-  final authService = Get.put<AuthService>(AuthService(tokenStorage), permanent: true);
+  final authService = Get.put<AuthService>(
+    AuthService(tokenStorage),
+    permanent: true,
+  );
   authService.setLoggedIn(isLoggedIn);
 
   runApp(MyApp(initialRoute: initialRoute));
@@ -93,9 +106,7 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: InitialBinding(),
       initialRoute: initialRoute,
-      navigatorObservers: [
-        AnalyticsService.to.observer,
-      ],
+      navigatorObservers: [AnalyticsService.to.observer],
       // Note: AnalyticsService is registered in main() before runApp.
       // Route -> page mapping.
       getPages: AppPages.pages,
