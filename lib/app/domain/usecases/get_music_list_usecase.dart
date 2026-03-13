@@ -1,3 +1,4 @@
+import '../../core/network/result.dart';
 import '../entities/music.dart';
 import '../repositories/music_repository.dart';
 
@@ -7,8 +8,7 @@ class GetMusicListUseCase {
 
   final MusicRepository _repo;
 
-  // Executes the action.
-  Future<List<Music>> call() {
+  Future<Result<List<Music>>> call() {
     return _repo.getAll();
   }
 }

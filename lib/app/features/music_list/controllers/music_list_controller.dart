@@ -14,6 +14,7 @@ class MusicListController extends GetxController with ErrorHandlerMixin {
 
   final isLoading = false.obs;
   final isLoadingMore = false.obs;
+  @override
   final errorMessage = ''.obs;
 
   int _currentPage = 1;
@@ -30,37 +31,41 @@ class MusicListController extends GetxController with ErrorHandlerMixin {
   bool isPlayingUrl(String url) => _player.isPlayingUrl(url);
 
   Future<void> fetchMusicList() async {
-    try {
-      isLoading.value = true;
-      errorMessage.value = '';
-      _currentPage = 1;
-      _hasMore = true;
+    isLoading.value = true;
+    errorMessage.value = '';
+    _currentPage = 1;
+    _hasMore = true;
 
-      final result = await getMusicPageUseCase(page: _currentPage, limit: _limit);
-      musics.assignAll(result.items);
-      _hasMore = result.hasMore;
-    } catch (e, stack) {
-      handleError(e, stack, reason: 'fetchMusicList');
-    } finally {
-      isLoading.value = false;
-    }
+    final result = await getMusicPageUseCase(page: _currentPage, limit: _limit);
+    result.when(
+      success: (pageData) {
+        musics.assignAll(pageData.items);
+        _hasMore = pageData.hasMore;
+      },
+      failure: (e, stack) {
+        handleError(e, stack ?? StackTrace.current, reason: 'fetchMusicList');
+      },
+    );
+    isLoading.value = false;
   }
 
   Future<void> loadMore() async {
     if (!_hasMore || isLoadingMore.value) return;
-    try {
-      isLoadingMore.value = true;
-      _currentPage++;
+    isLoadingMore.value = true;
+    _currentPage++;
 
-      final result = await getMusicPageUseCase(page: _currentPage, limit: _limit);
-      musics.addAll(result.items);
-      _hasMore = result.hasMore;
-    } catch (e, stack) {
-      _currentPage--;
-      handleError(e, stack, reason: 'loadMore');
-    } finally {
-      isLoadingMore.value = false;
-    }
+    final result = await getMusicPageUseCase(page: _currentPage, limit: _limit);
+    result.when(
+      success: (pageData) {
+        musics.addAll(pageData.items);
+        _hasMore = pageData.hasMore;
+      },
+      failure: (e, stack) {
+        _currentPage--;
+        handleError(e, stack ?? StackTrace.current, reason: 'loadMore');
+      },
+    );
+    isLoadingMore.value = false;
   }
 
   Future<void> playUrl(String url) async {

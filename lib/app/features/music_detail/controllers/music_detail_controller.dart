@@ -13,6 +13,7 @@ class MusicDetailController extends GetxController with ErrorHandlerMixin {
   final selectedMusic = Rxn<Music>();
 
   final isLoading = false.obs;
+  @override
   final errorMessage = ''.obs;
 
   final PlayerController _player = Get.find<PlayerController>();
@@ -45,17 +46,15 @@ class MusicDetailController extends GetxController with ErrorHandlerMixin {
   }
 
   Future<void> fetchMusicDetail(int id) async {
-    try {
-      isLoading.value = true;
-      errorMessage.value = '';
+    isLoading.value = true;
+    errorMessage.value = '';
 
-      final result = await getMusicDetailUseCase(id);
-      selectedMusic.value = result;
-    } catch (e, stack) {
-      handleError(e, stack, reason: 'fetchMusicDetail id=$id');
-    } finally {
-      isLoading.value = false;
-    }
+    final result = await getMusicDetailUseCase(id);
+    result.when(
+      success: (data) => selectedMusic.value = data,
+      failure: (e, stack) => handleError(e, stack ?? StackTrace.current, reason: 'fetchMusicDetail id=$id'),
+    );
+    isLoading.value = false;
   }
 
   Future<void> playUrl(String url) async {

@@ -8,6 +8,7 @@ import 'package:music_roop/app/core/mixins/error_handler_mixin.dart';
 import 'package:music_roop/app/domain/entities/music.dart';
 import 'package:music_roop/app/domain/entities/music_page.dart';
 import 'package:music_roop/app/domain/repositories/music_repository.dart';
+import 'package:music_roop/app/core/network/result.dart';
 import 'package:music_roop/app/domain/usecases/get_music_detail_usecase.dart';
 import 'package:music_roop/app/domain/usecases/get_music_page_usecase.dart';
 import 'package:music_roop/app/features/music_detail/controllers/music_detail_controller.dart';
@@ -29,15 +30,15 @@ class FakeMusicRepository implements MusicRepository {
   final List<Music> items;
 
   @override
-  Future<List<Music>> getAll() async => items;
+  Future<Result<List<Music>>> getAll() async => Result.success(items);
 
   @override
-  Future<MusicPage> getPage({int page = 1, int limit = 10}) async {
-    return MusicPage(items: items, page: page, limit: limit, total: items.length);
+  Future<Result<MusicPage>> getPage({int page = 1, int limit = 10}) async {
+    return Result.success(MusicPage(items: items, page: page, limit: limit, total: items.length));
   }
 
   @override
-  Future<Music> getById(int id) async => items.firstWhere((e) => e.id == id);
+  Future<Result<Music>> getById(int id) async => Result.success(items.firstWhere((e) => e.id == id));
 }
 
 void main() {

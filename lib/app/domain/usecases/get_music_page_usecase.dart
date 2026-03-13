@@ -1,3 +1,4 @@
+import '../../core/network/result.dart';
 import '../entities/music_page.dart';
 import '../repositories/music_repository.dart';
 
@@ -7,7 +8,7 @@ class GetMusicPageUseCase {
 
   final MusicRepository _repo;
 
-  Future<MusicPage> call({int page = 1, int limit = 10}) {
+  Future<Result<MusicPage>> call({int page = 1, int limit = 10}) {
     return _repo.getPage(page: page, limit: limit);
   }
 }

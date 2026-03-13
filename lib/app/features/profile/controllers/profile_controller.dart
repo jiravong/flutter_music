@@ -13,6 +13,8 @@ class ProfileController extends GetxController with ErrorHandlerMixin {
   final TokenStorage _tokenStorage = Get.find<TokenStorage>();
 
   final isLoading = false.obs;
+  final isEditing = false.obs;
+  @override
   final errorMessage = ''.obs;
   final user = Rxn<UserModel>(null);
   

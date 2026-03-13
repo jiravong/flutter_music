@@ -39,32 +39,28 @@ class MusicController extends GetxController {
 
   // Fetch music list and update `musics`.
   Future<void> fetchMusicList() async {
-    try {
-      isLoading.value = true;
-      errorMessage.value = '';
+    isLoading.value = true;
+    errorMessage.value = '';
 
-      final result = await getMusicListUseCase();
-      musics.assignAll(result);
-    } catch (e) {
-      errorMessage.value = e.toString();
-    } finally {
-      isLoading.value = false;
-    }
+    final result = await getMusicListUseCase();
+    result.when(
+      success: (data) => musics.assignAll(data),
+      failure: (e, stack) => errorMessage.value = e.toString(),
+    );
+    isLoading.value = false;
   }
 
   // Fetch music detail and update `selectedMusic`.
   Future<void> fetchMusicDetail(int id) async {
-    try {
-      isLoading.value = true;
-      errorMessage.value = '';
+    isLoading.value = true;
+    errorMessage.value = '';
 
-      final result = await getMusicDetailUseCase(id);
-      selectedMusic.value = result;
-    } catch (e) {
-      errorMessage.value = e.toString();
-    } finally {
-      isLoading.value = false;
-    }
+    final result = await getMusicDetailUseCase(id);
+    result.when(
+      success: (data) => selectedMusic.value = data,
+      failure: (e, stack) => errorMessage.value = e.toString(),
+    );
+    isLoading.value = false;
   }
 
   Future<void> playUrl(String url) async {

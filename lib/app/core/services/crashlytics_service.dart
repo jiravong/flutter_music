@@ -26,6 +26,7 @@ class CrashlyticsService extends GetxService implements ErrorRecorder {
     await _crashlytics.log(message);
   }
 
+  @override
   Future<void> recordError(
     dynamic exception,
     StackTrace? stackTrace, {
