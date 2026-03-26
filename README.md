@@ -228,6 +228,10 @@ flutter pub get
 flutter run
 ```
 
+## Update icon app
+
+- flutter pub run flutter_launcher_icons:main
+
 ## Development Notes
 
 - `ApiClient` has request/response logging enabled only in debug mode.

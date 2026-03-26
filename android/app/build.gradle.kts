@@ -42,6 +42,12 @@ android {
         }
     }
 
+    sourceSets {
+        getByName("dev") {
+            res.srcDirs("src/dev/res")
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
